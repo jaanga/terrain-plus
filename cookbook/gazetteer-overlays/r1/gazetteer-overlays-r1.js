@@ -10,7 +10,7 @@
 			},
 		bbike: {
 			title: 'BBBike Mapnik',
-			attribution: '',
+			attribution: '&copy; BBBike.org & Geofabrik GmbH',
 			src: function ( zoom, x, y ) {
 				var letters = ['a','b','c'];
 				return 'http://' + letters[ Math.floor( Math.random() * 3) ] + '.tile.bbbike.org/osm/mapnik/' + zoom + '/' + x + '/' + y + '.png';
@@ -18,7 +18,7 @@
 		},
 		bbikeGerman: {
 			title: 'BBBike Mapnik (de)',
-			attribution: '',
+			attribution: '&copy; BBBike.org & Geofabrik GmbH',
 			src: function ( zoom, x, y ) {
 				var letters = ['a','b','c'];
 				return 'http://' + letters[ Math.floor( Math.random() * 3) ] + '.tile.bbbike.org/osm/mapnik-german/' + zoom + '/' + x + '/' + y + '.png';
@@ -26,7 +26,7 @@
 		},
 		bbbikeSmoothness: {
 			title: 'BBBike Smoothness',
-			attribution: '',
+			attribution: '&copy; BBBike.org & Geofabrik GmbH',
 			src: function ( zoom, x, y ) {
 				var letters = ['a','b','c','d'];
 				return 'http://' + letters[ Math.floor( Math.random() * 4) ] + '.tile.bbbike.org/osm/bbbike-smoothness/' + zoom + '/' + x + '/' + y + '.png';
@@ -162,72 +162,7 @@
 */
 	}
 
-	var creds = 'Thanks to: http://wboykinm.github.io/tile-compare/<br>' +
-		'Cred as Follows: OSM/Mapbox &copy; Openstreetmap Contributors &copy; Nokia HERE';
-	var container;
 
-	function init() {
-		document.body.style.cssText = ' font: bold 12pt monospace; ';
-
-		var info = document.body.appendChild( document.createElement( 'div' ) );
-		info.innerHTML = '<h1>Map Overlays Available via TMS</h1>' +
-			'<p>All of the following mapsa ara sourced via the TMS format: http://[url]/zoom/X/Y.png</p>' +
-			'<select id=selZoom></select> ' +
-			'<select id=selX></select>'  +
-			'<select id=selY></select> ' +
-			'<a href=JavaScript:drawMaps() > Draw Maps</a>' +
-			'<div style=bottom:0;position:absolute; id=credits>' + creds + '</div>' +
-		'';
-
-		for ( var option, i = 0; i < 21; i++ ) {
-			selZoom.appendChild( option = document.createElement( 'option' ) );
-			selZoom.children[i].text = 'zoom level ' + i;
-		}
-
-		selZoom.onchange = setSelects;
-		selZoom.selectedIndex = zoom;
-
-		setSelects();
-
-		selX.onchange = function() { tileX = this.selectedIndex; };
-		selX.selectedIndex = tileX;
-
-		selY.onchange = function() { tileY = this.selectedIndex; };
-		selY.selectedIndex = tileY;
-
-		drawMaps();
-	}
-
-	function drawMaps() {
-		if ( !container) container = document.body.appendChild( document.createElement( 'div' ) );
-		container.innerHTML = '';
-		for (var overlay in overlays ) {
-			figure = container.appendChild( document.createElement( 'figure' ) );
-			figure.style.cssText = 'border: 1px solid black; display: inline-block; text-align: center; width: 256px;';
-			image = figure.appendChild( document.createElement( 'img' ) );
-			image.src = overlays[ overlay ].src( zoom, tileX, tileY);
-			figcap = figure.appendChild( document.createElement( 'figcaption' ) );
-			figcap.innerHTML = 'title: ' + overlays[ overlay ].title + '<br>attribution: ' + overlays[ overlay ].attribution ;
-		}
-	}
-
-	function setSelects() {
-		zoom = selZoom.selectedIndex;
-		selX.options.length = 0;
-		selY.options.length = 0;
-
-		limit = Math.pow(2, zoom )
-		selX.children.length = 0;
-		for (var i = 0; i < limit; i++) {
-			selX.appendChild( option = document.createElement( 'option' ) );
-			selX.children[i].text = 'tile X = ' + i;
-		}
-		selY.children.length = 0;
-		for (var i = 0; i < limit; i++) {
-			selY.appendChild( option = document.createElement( 'option' ) );
-			selY.children[i].text = 'tile Y = ' + i;
-		}
-	} 
 
 /*
 		container.innerHTML += '<br>And many more still to be added. Including:<br>'
