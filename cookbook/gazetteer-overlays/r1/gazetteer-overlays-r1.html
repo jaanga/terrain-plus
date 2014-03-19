@@ -11,8 +11,8 @@
 	var tileX = 20;
 	var tileY = 49;
 
-	var creds = 'Thanks to: http://wboykinm.github.io/tile-compare/<br>' +
-		'Cred as Follows: OSM/Mapbox &copy; Openstreetmap Contributors &copy; Nokia HERE';
+	var creds = 'Thanks to: http://wboykinm.github.io/tile-compare/<br>';
+//		'Cred as Follows: OSM/Mapbox &copy; Openstreetmap Contributors &copy; Nokia HERE';
 	var container;
 
 	init();
@@ -21,8 +21,8 @@
 		document.body.style.cssText = ' font: bold 12pt monospace; ';
 
 		var info = document.body.appendChild( document.createElement( 'div' ) );
-		info.innerHTML = '<h1>Map Overlays Available via TMS</h1>' +
-			'<p>All of the following mapsa ara sourced via the TMS format: http://[url]/zoom/X/Y.png</p>' +
+		info.innerHTML = '<h1>Selected Map Overlays Available via TMS</h1>' +
+			'<p>All of the following map images are sourced using the TMS standard format: http://[url]/zoom/X/Y.png</p>' +
 			'<select id=selZoom></select> ' +
 			'<select id=selX></select>'  +
 			'<select id=selY></select> ' +
