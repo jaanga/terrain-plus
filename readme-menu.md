@@ -9,6 +9,7 @@
 <p id=uf >
 	<a href=./cookbook/index.html >Cookbook</a>
 </p>
+
 <!--
 <p id=hw >
 	<a href=./hello-world/index.html>Hello World</a>
@@ -23,7 +24,7 @@
 
 [Terrain]( ../terrain/index.html )  
 
-[Terrain Plus]( ../terrain-plus/index.html )
+[Terrain Viewer]( ../terrain-viewer/index.html )
 
 
 ****
