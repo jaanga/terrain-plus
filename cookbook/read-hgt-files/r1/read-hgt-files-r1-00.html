@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang=en>
+<head>
+<title></title>
+<meta charset=utf-8>
+<meta name=author content='Theo Armour'>
+</head>
+<body>
+<script>
+	var data;
+	var arrayBuffer;
+	var byteArray;
+
+	document.body.style.cssText = ' font: bold 12pt monospace; ';
+
+	var info = document.body.appendChild( document.createElement( 'div' ) );
+	info.innerHTML = '<h1>Read HGT Files</h1>' +
+		'<div id=msg></div>';
+
+	requestFile( '../A01/N00W177.hgt' );
+
+	function requestFile( fname ) {
+
+		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.responseType = "arraybuffer";
+		xmlHttp.open( 'GET', fname, true );
+		xmlHttp.send( null );
+
+		xmlHttp.onload = function (oEvent) {
+
+			arrayBuffer = xmlHttp.response; // Note: not oReq.responseText
+			if (arrayBuffer) {
+
+				byteArray = new Uint8Array(arrayBuffer);
+				var txt = 'Length: ' + byteArray.byteLength + ' sqrt:' + Math.sqrt( byteArray.byteLength / 2 ) + '<br>';
+				for (var i = 0; i < byteArray.byteLength; i++) {
+					if ( byteArray[i] > 0  ) {
+						txt += i + ' - ' +  byteArray[i] + ' - ';
+					}
+				}
+				msg.innerHTML = txt;
+			}
+		};
+	}
+</script>
+</body>
+</html>
