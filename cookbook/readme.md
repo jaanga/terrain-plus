@@ -1,5 +1,5 @@
-Terrain Plus Read Me
-===================
+Terrain Plus Cookbook Read Me
+=============================
 
 [Read HGT Files]( http://jaanga.github.io/terrain-plus/cookbook/read-hgt-files/index.html )
 

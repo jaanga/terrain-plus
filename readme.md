@@ -1,16 +1,20 @@
 Terrain Plus Read Me
 ====================
 
-## Contents
+#### Project Links
 
-Gazetteer of TMS Overlays
+You have two ways of viewing the Jaanga Cookbook files:
 
-* [Map Overlays Available via TMS]( http://jaanga.github.io/terrain-plus/cookbook/gazetteer-overlays/r1/gazetteer-overlays-r1.html )
-* Graphic evidence that the very simple Tile Map Service (TMS) is a cool way to categorize and organize map data
-* These overlay will be available in unFlatland and Plane Spotter in the near future
-* And there are dozens more overlays from numerous new sources yet to be added
+* Web pages hosted on GitHub: [jaanga.github.io/terrain-plus/cookbook/]( http://jaanga.github.io/terrain-plus/cookbook/"view the files as apps." ) <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
+* Source code on GitHub: [github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/]( https://github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/ "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
 
 
+## Cookbook
+
+* [Map Overlays Available via TMS](  http://jaanga.github.io/terrain-plus/cookbook/gazetteer-overlays )
+* [Read HGT Files]( https://github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/read-hgt-files )
+
+## Gazetteers
 
 Gazetteer of over 2000 locations with latitude and longitude  
 
@@ -28,6 +32,8 @@ GeoJSON Gazetteer of highest mountains in Scotland
 * GeoJSON data sourced from [stevenhorner / PeakVisibility]( https://github.com/stevenhorner/PeakVisibility/ )
 * Thanks Steven!
 
-Heightmaps from various sources used in early versions of Jaanga Terrain
+## Heightmaps
+
+* Heightmaps from various sources used in early versions of Jaanga Terrain
 
 <img src=http://jaanga.github.io/terrain-plus/unicam/topo-4-6-2.png width=640 />

@@ -21,5 +21,12 @@
 
 ****
 
+[Terrain]( ../terrain/index.html )  
+
+[Terrain Plus]( ../terrain-plus/index.html )
+
+
+****
+
 [Source Code on GitHub]( https://github.com/jaanga/terrain-plus )  
 [Copyright and License]( https://github.com/jaanga/jaanga.github.io/blob/master/jaanga-copyright-and-mit-license.md )
