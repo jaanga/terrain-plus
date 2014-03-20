@@ -5,15 +5,15 @@
 	<a href=JavaScript:displayPage("readme.md",rm); >Read Me</a>
 </p>
 
+<p id=hgt >
+	<a href=JavaScript:displayPage("./read-hgt-files/readme.md",hgt); >Read HGT Files</a>
+</p>
+
+<p id=gov >
+	<a href=JavaScript:displayPage("./gazetteer-overlays/readme.md",gov); >Gazetteer Overlay</a>
+</p>
+
 <!--
-<p id=uf >
-	<a href=./un-flatland/index.html >unFlatland</a>
-</p>
-
-<p id=hw >
-	<a href=./hello-world/index.html>Hello World</a>
-</p>
-
 <p id=pv >
 	<a href=./png-viewer/index.html >PNG Viewer</a>
 </p>
