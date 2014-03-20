@@ -3,7 +3,7 @@ Read Me
 
 ### Live Demo
 
-* [Map Overlays Available via TMS]( http://jaanga.github.io/terrain-plus/cookbook/gazetteer-overlays/r1/gazetteer-overlays-r1.html )
+* [Map Overlays Available via TMS]( http://jaanga.github.io/terrain-plus/cookbook/gazetteer-overlays/latest/ )
 
 ## Concept
 
@@ -23,9 +23,9 @@ Read Me
 
 ## Project Links
 
-You have two ways of viewing the Jaanga files:
+You have two ways of viewing the Gazetteer Overlay files:
 
-* Web page hosted on GitHub: [jaanga.github.io]( http://jaanga.github.io/ "view the files as apps." ) <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
+* Web page hosted on GitHub: [jaanga.github.io]( http://jaanga.github.io/terrain-plus/cookbook/gazetteer-overlay/ "view the files as apps." ) <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
 * Source code on GitHub: [github.com/jaanga]( https://github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/gazetteer-overlays "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
 
 Jaanga web log: [jaanga.com]( http://jaanga.com )
@@ -39,6 +39,9 @@ This app is at an early and volatile stage. Not all licensing requirements may h
 
 ## Change Log
 
+2014-03-19 ~ Theo
+
+* Read me added
 
 
 
