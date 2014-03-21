@@ -1,5 +1,5 @@
-DRead HGT Files Dev Notes
-=========================
+Read HGT Files Dev Notes
+========================
 
 2014-03-20 ~ Theo
 
@@ -10,6 +10,9 @@ Now using Int16Array. Data numbers seem to be coming in correctly, but have huge
     Elevations are given relative to the WGS84 ellipsoid or to the reference surface that was used to measure ground control points 
     and not relative to the WGS-84 geoid as it is required for conformance with international mapping accuracy standards.
 
+Heights are in meters referenced to the WGS84/EGM96 geoid
+
+http://gis.stackexchange.com/questions/90417/how-do-you-convert-srtm-hgt-elevations-from-wgs84-into-meters-above-sea-level
 
 2014-03-19 ~ Theo
 

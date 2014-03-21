@@ -2,7 +2,7 @@
 ===================================================================
 
 <p id=rm >
-	<a href=JavaScript:displayPage("readme.md",rm); >Read Me</a>
+	<a href=JavaScript:displayPage("#readme.md#rm"); >Read Me</a>
 </p>
 
 
@@ -18,6 +18,7 @@
 <p id=pv >
 	<a href=./png-viewer/index.html >PNG Viewer</a>
 </p>
+
 -->
 
 ****
