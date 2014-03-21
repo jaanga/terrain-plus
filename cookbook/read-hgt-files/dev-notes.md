@@ -1,5 +1,15 @@
-Dev Notes
-=========
+DRead HGT Files Dev Notes
+=========================
+
+2014-03-20 ~ Theo
+
+Now using Int16Array. Data numbers seem to be coming in correctly, but have huge values.
+
+<http://www.madmappers.com/msdetails/SRTM.htm>:
+
+    Elevations are given relative to the WGS84 ellipsoid or to the reference surface that was used to measure ground control points 
+    and not relative to the WGS-84 geoid as it is required for conformance with international mapping accuracy standards.
+
 
 2014-03-19 ~ Theo
 

@@ -5,6 +5,12 @@
 </head>
 <body>
 <script>
+
+// File obtained from http://www.viewfinderpanoramas.org/Coverage%20map%20viewfinderpanoramas_org3.htm
+	var fileName = '../J10/N37W123.hgt';
+
+// File obtained from http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/North_America/
+//	var fileName = '../N37W123.hgt/N37W123.hgt'; 
 	var xmlHttp;
 	var arrayBuffer;
 	var byteArray;
@@ -17,24 +23,30 @@
 		info.innerHTML = '<h1>Read HGT Files</h1>' +
 			'<div id=msg></div>';
 
-		requestFile( '../J10/N37W123.hgt' );
+		requestFile( fileName );
 	}
 
 	function callback() {
 		var canvas;
 		var context;
 		arrayBuffer = xmlHttp.response;
-		byteArray = new Uint16Array( arrayBuffer );
-
+		byteArray = new Int16Array( arrayBuffer );
+ 
 		var min = 1000000;
 		var max = 0;
-		for (var i = 0; i <  1000; i++) {  // byteArray.byteLength
+		var noData = 0;
+		var txt = 'File: ' + fileName + ' Length:' + byteArray.length + ' ByteLength:' + byteArray.byteLength + ' Sqrt of Length:' + Math.sqrt( byteArray.length ), txt2 = '';
+		for (var i = 0; i <  50; i++) {  // byteArray.byteLength
 			max = byteArray[i] > max ? byteArray[i] : max;
-			min = byteArray[i] < min ? byteArray[i] : min;
+			if ( byteArray[i]  < -3200) {
+				noData++;
+			} else {
+				min = byteArray[i] < min ? byteArray[i] : min;
+			}
+			txt2 += i + ':' + byteArray[i] + ' - ';
 		}
-		var txt = 'Length: ' + byteArray.byteLength + ' sqrt of 1/2:' + Math.sqrt( byteArray.byteLength / 2 ) + 
-			' Max: ' + max + ' Min: ' + min +
-		'<br>';
+		txt += ' Max:' + max + ' Min:' + min + ' No data:' + noData + ' First 50:<br>' + txt2;
+			
 		msg.innerHTML = txt;
 
 		canvas = document.body.appendChild( document.createElement( 'canvas' ) );
@@ -46,7 +58,7 @@
 		var idx = 0, height;
 		for ( var i = 0; i < imgData.data.length; i += 4 ) {
 // following line found at http://blog.thematicmapping.org/2013/10/terrain-building-with-threejs.html
-			height = Math.round( byteArray[ idx ] / 65535 * 500 );
+			height = Math.round( byteArray[ idx ] / 64 );
 			imgData.data[ i + 0 ] = height;
 			imgData.data[ i + 1 ] = height;
 			imgData.data[ i + 2 ] = height;
