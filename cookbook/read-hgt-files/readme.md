@@ -6,7 +6,11 @@ Read Me
 [Read HGT Files]( http://jaanga.github.io/terrain-plus/cookbook/read-hgt-files/latest/ )
 
 * Takes a few seconds to load and display the data
-* [Source code]( https://github.com/jaanga/terrain-plus/blob/gh-pages/cookbook/read-hgt-files/r1/read-hgt-files-r1.html )
+* [Source code]( https://github.com/jaanga/terrain-plus/blob/gh-pages/cookbook/read-hgt-files/latest.html )
+
+See also this question on GIS Stack Exchange:
+
+http://gis.stackexchange.com/questions/90417/how-do-you-convert-srtm-hgt-elevations-from-wgs84-into-meters-above-sea-level
 
 
 ## Concept
@@ -18,11 +22,14 @@ Read Me
 	* Display the data as bitmaps in HTML canvas elements
 * The longer term goal is to use this ability to translate all of de Ferranti's data into heightmaps that can be used to create 3D cartography
 
-
-<!--
 ## Features
 
+* Converts 'big endian' data to 'little endian' data
+* Displays various data about the file including maximum and minimum elevations read
+* Display number of points with no data
+* Lists the number of different elevations read 
 
+<!--
 ## Road Map
 
 
@@ -31,7 +38,7 @@ Read Me
 
 ## Project Links
 
-Background data on the HGT file fomat is available from
+Background data on the HGT file format is available from
 
 * <http://stackoverflow.com/questions/357415/how-to-read-nasa-hgt-binary-files>
 * <http://gis.stackexchange.com/questions/43743/how-to-extract-elevation-from-hgt-file>
@@ -44,6 +51,13 @@ You have two ways of viewing the 'Read HGT Files' files:
 
 Jaanga web log: [jaanga.com]( http://jaanga.com )
 
+## Credits
+
+Thanks to GeoffMc and BradHards for helping with the 'big endian' issue.   
+Thanks to radouxju for the nice link on alternative solutions.  
+Thanks to Ryan for the byte swapping routine from here: http://stackoverflow.com/questions/7869752/javascript-typed-arrays-and-endianness
+
+
 ## Copyright Notice and License
 
 [Jaanga copyright notice and license]( https://github.com/jaanga/jaanga.github.io/blob/master/jaanga-copyright-and-mit-license.md )
@@ -52,6 +66,12 @@ This app is at an early and volatile stage. Not all licensing requirements may h
 
 
 ## Change Log
+
+2014-03-21 ~ Theo
+
+* R2 added
+* Big endian fixes added
+* Lists number of elevations
 
 2014-03-19 ~ Theo
 
