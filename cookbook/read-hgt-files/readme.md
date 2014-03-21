@@ -1,12 +1,12 @@
-Read Me
-=======
+Read HGT Files Read Me
+======================
 
 ### Live Demo
 
-[Read HGT Files]( http://jaanga.github.io/terrain-plus/cookbook/read-hgt-files/latest/ )
+[Read HGT Files R2]( http://jaanga.github.io/terrain-plus/cookbook/read-hgt-files/latest/ )
 
 * Takes a few seconds to load and display the data
-* [Source code]( https://github.com/jaanga/terrain-plus/blob/gh-pages/cookbook/read-hgt-files/latest.html )
+* [Source code]( https://github.com/jaanga/terrain-plus/blob/gh-pages/cookbook/read-hgt-files/ )
 
 See also this question on GIS Stack Exchange:
 
