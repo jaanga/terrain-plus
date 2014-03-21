@@ -10,7 +10,7 @@ Read HGT Files Read Me
 
 See also this question on GIS Stack Exchange:
 
-http://gis.stackexchange.com/questions/90417/how-do-you-convert-srtm-hgt-elevations-from-wgs84-into-meters-above-sea-level
+<http://gis.stackexchange.com/questions/90417/how-do-you-convert-srtm-hgt-elevations-from-wgs84-into-meters-above-sea-level>
 
 
 ## Concept
@@ -28,6 +28,13 @@ http://gis.stackexchange.com/questions/90417/how-do-you-convert-srtm-hgt-elevati
 * Displays various data about the file including maximum and minimum elevations read
 * Display number of points with no data
 * Lists the number of different elevations read 
+
+## Credits
+
+Thanks to GeoffMc and BradHards for helping with the 'big endian' issue.   
+Thanks to radouxju for the nice link on alternative solutions.  
+Thanks to Ryan for the byte swapping routine from here: <http://stackoverflow.com/questions/7869752/javascript-typed-arrays-and-endianness>
+
 
 <!--
 ## Road Map
@@ -50,12 +57,6 @@ You have two ways of viewing the 'Read HGT Files' files:
 * Source code on GitHub: [github.com/jaanga]( https://github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/read-hgt-files "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
 
 Jaanga web log: [jaanga.com]( http://jaanga.com )
-
-## Credits
-
-Thanks to GeoffMc and BradHards for helping with the 'big endian' issue.   
-Thanks to radouxju for the nice link on alternative solutions.  
-Thanks to Ryan for the byte swapping routine from here: http://stackoverflow.com/questions/7869752/javascript-typed-arrays-and-endianness
 
 
 ## Copyright Notice and License

@@ -1,6 +1,12 @@
 Read HGT Files Dev Notes
 ========================
 
+2014-03-21 ~ Theo
+
+Great progress on reading the HGT data. Big endian problem solved.
+
+Now onto storing thousands of elevations. Need good decimal to RGB and back routines.
+ 
 
 2014-03-20 ~ Theo
 
