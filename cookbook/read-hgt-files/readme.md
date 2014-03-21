@@ -20,6 +20,7 @@ See also this question on GIS Stack Exchange:
 		* Jonathan de Ferranti's [Viewfinder Panoramas]( http://www.viewfinderpanoramas.org/dem3.html )
 		* USGS's [SRTM Data]( http://dds.cr.usgs.gov/srtm/ )
 	* Display the data as bitmaps in HTML canvas elements
+	* Currently a bit slow because counting the numeber of different elevations takes time
 * The longer term goal is to use this ability to translate all of de Ferranti's data into heightmaps that can be used to create 3D cartography
 
 ## Features
