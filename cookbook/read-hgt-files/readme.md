@@ -3,15 +3,20 @@ Read Me
 
 ### Live Demo
 
-* [Map Overlays Available via TMS]( http://jaanga.github.io/terrain-plus/cookbook/read-hgt-files/latest/ )
+[Read HGT Files]( http://jaanga.github.io/terrain-plus/cookbook/read-hgt-files/latest/ )
+
+* Takes a few seconds to load and display the data
+* [Source code]( https://github.com/jaanga/terrain-plus/blob/gh-pages/cookbook/read-hgt-files/r1/read-hgt-files-r1.html )
 
 
 ## Concept
 
 * The short term goal is to be able to:
-	* Open and read using JavaScript the binary HGT files from Jonathan de Ferranti's [Viewfinder Panoramas]( http://www.viewfinderpanoramas.org/dem3.html )
+	* Open and read using JavaScript the binary HGT files from:
+		* Jonathan de Ferranti's [Viewfinder Panoramas]( http://www.viewfinderpanoramas.org/dem3.html )
+		* USGS's [SRTM Data]( http://dds.cr.usgs.gov/srtm/ )
 	* Display the data as bitmaps in HTML canvas elements
-* The longer term goal is to use this ability to translate all of Ferranti's data into heightmaps that can be used to create 3D cartography
+* The longer term goal is to use this ability to translate all of de Ferranti's data into heightmaps that can be used to create 3D cartography
 
 
 <!--
@@ -30,7 +35,6 @@ Background data on the HGT file fomat is available from
 
 * <http://stackoverflow.com/questions/357415/how-to-read-nasa-hgt-binary-files>
 * <http://gis.stackexchange.com/questions/43743/how-to-extract-elevation-from-hgt-file>
-
 
 
 You have two ways of viewing the 'Read HGT Files' files:
