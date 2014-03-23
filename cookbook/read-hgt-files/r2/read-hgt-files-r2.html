@@ -8,10 +8,10 @@
 <script>
 
 // File obtained from http://www.viewfinderpanoramas.org/Coverage%20map%20viewfinderpanoramas_org3.htm
-	var fileName = '../J10/N37W123.hgt';
+//	var fileName = '../J10/N37W123.hgt';
 
 // File obtained from http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/North_America/
-//	var fileName = '../N37W123.hgt/N37W123.hgt'; 
+	var fileName = '../N37W123.hgt/N37W123.hgt'; 
 	var xmlHttp;
 	var arrayBuffer;
 	var byteArray;
@@ -51,6 +51,7 @@
 		var txt = 'LittleEndian value: ' + littleEndian + '<br>' +
 			'File: ' + fileName + ' Length:' + byteArray.length + ' ByteLength:' + byteArray.byteLength + ' Sqrt Length:' + Math.sqrt( byteArray.length );
 		var elev;
+/*
 		for (var i = 0; i <  byteArray.byteLength; i++) {
 			max = byteArray[i] > max ? byteArray[i] : max;
 			if ( byteArray[i]  < -32767) {
@@ -62,6 +63,7 @@
 				elevations.push( byteArray[i] );
 			}
 		}
+*/
 		txt += ' Max:' + max + ' Min:' + min + ' No data:' + noData + ' Number of elevations:' + elevations.length + '<br>';
 			
 		msg.innerHTML = txt;
@@ -74,10 +76,11 @@
 		var imgData = context.createImageData( 1201, 1201 );
 		var idx = 0, height;
 		for ( var i = 0, len = imgData.data.length; i < len; i += 4 ) {
-			height = Math.round( byteArray[ idx ] );
-			imgData.data[ i + 0 ] = height;
-			imgData.data[ i + 1 ] = height;
-			imgData.data[ i + 2 ] = height;
+			height = ( 50 * byteArray[ idx ] + 0xffffff + 1 ).toString(16).slice(-6);
+
+			imgData.data[ i + 0 ] = parseInt( height.substr( 0, 2 ), 16 );
+			imgData.data[ i + 1 ] = parseInt( height.substr( 2, 2 ), 16 );
+			imgData.data[ i + 2 ] = parseInt( height.substr( 4, 2 ), 16 );
 			imgData.data[ i + 3 ] = 255;
 			idx++;
 		}

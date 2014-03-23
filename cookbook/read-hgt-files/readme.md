@@ -69,6 +69,9 @@ This app is at an early and volatile stage. Not all licensing requirements may h
 
 ## Change Log
 
+* R2 update
+* Display color for every elevation
+
 2014-03-21 ~ Theo
 
 * R2 added
