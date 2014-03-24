@@ -11,8 +11,10 @@ You have two ways of viewing the Jaanga Cookbook files:
 
 ## Cookbook
 
-* [Map Overlays Available via TMS](  http://jaanga.github.io/terrain-plus/cookbook/gazetteer-overlays )
+* [Global Heightmap Color Ranges]( http://jaanga.github.io/terrain-plus/cookbook/global-heightmap-color-ranges/ )
 * [Read HGT Files]( https://github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/read-hgt-files )
+* [Map Overlays Available via TMS](  http://jaanga.github.io/terrain-plus/cookbook/gazetteer-overlays )
+
 
 ## Gazetteers
 
