@@ -19,5 +19,5 @@
 
 ****
 
-[Source Code on GitHub]( https://github.com/jaanga/cookbook/global-heightmap-color-ranges/ )  
+[Source Code on GitHub]( https://github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/global-heightmap-color-ranges )  
 [Copyright and License]( https://github.com/jaanga/jaanga.github.io/blob/master/jaanga-copyright-and-mit-license.md )

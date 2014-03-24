@@ -12,6 +12,8 @@ Idea from:
 ## Concept
 Buiild a color range algorithm that copes with plus or minus 11K elevations
 
+
+
 <!--
 ### Mission
 
@@ -19,20 +21,22 @@ Buiild a color range algorithm that copes with plus or minus 11K elevations
 
 
 ## Features
-
+-->
 
 ## Road Map
 
+* Capability to differentiate distinctly color ranges above and below zero
+
 
 ## Issues /Bugs
--->
+
 
 ## Project Links
 
 You have two ways of viewing the Jaanga files:
 
 * Web page hosted on GitHub: [jaanga.github.io]( http://jaanga.github.io//terrain-plus/cookbook/global-heightmap-color-ranges/ "view the files as apps." ) <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
-* Source code on GitHub: [github.com/jaanga]( https://github.com/jaanga/terrain-plus/ "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
+* Source code on GitHub: [github.com/jaanga]( https://github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/global-heightmap-color-ranges "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
 
 
 ### System Requirements
