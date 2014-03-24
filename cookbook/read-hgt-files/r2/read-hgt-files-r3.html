@@ -32,21 +32,40 @@
 		xmlHttp.onload = callback;
 	}
 
+var elevations;
+
 	function callback() {
 		var canvas;
 		var context;
 		var arrayBuffer;
 		var byteArray;
 		var swappedArray;
-		var elevations = [];
+
 		var min = 1000000;
 		var max = 0;
 		var noData = 0;
 		var littleEndian = ( new Int8Array( new Int32Array([1] ).buffer )[0] === 1) ? 0 : 1;  // a test offered by Geoff
 
 		arrayBuffer = xmlHttp.response;
-		swapBytes( arrayBuffer );
+//		swapBytes( arrayBuffer );
 		byteArray = new Int16Array( arrayBuffer );
+//		byteArray = new Int8Array( arrayBuffer );
+		len = byteArray.length / 2;
+//		len = byteArray.length
+
+//		elevations = [];
+		elevations = new Uint8Array( arrayBuffer );
+		var index = 0;
+		for (i = 0; i < len; i+=2 ) {
+			//if (littleEndian > 0) {
+			elevations[ index++ ] = (byteArray[i][0] << 8) + byteArray[i][1];
+			//} else { // swap for bigendian
+			//elevations[index++]  = (byteArray[i][1] << 8) + byteArray[i][0];
+			//}
+		}
+
+// Wanted an array with positive and negative decimal integers
+console.log( elevations );
 
 		var txt = 'LittleEndian value: ' + littleEndian + '<br>' +
 			'File: ' + fileName + ' Length:' + byteArray.length + ' ByteLength:' + byteArray.byteLength + ' Sqrt Length:' + Math.sqrt( byteArray.length );
@@ -76,13 +95,14 @@
 		imageData = context.createImageData( 1201, 1201 );
 		var id = imageData.data;
 		var height, idx = 0;
-		var addSpace = 80;  // setting to a higher data can help make data more 'visible'
+		var addSpace = 200;  // setting to a higher data can help make data more 'visible'
 		for ( var i = 0, len = id.length; i < len; i++) {
-			height = ( addSpace * byteArray[ idx++ ] + 0xffffffff + 1 ).toString( 16 ).slice( -6 );
+			height = ( addSpace * elevations[ idx ] + 0xffffffff + 1 ).toString( 16 ).slice( -6 );
 			id[ i++ ] = parseInt( height.substr( 0, 2 ), 16 );
 			id[ i++ ] = parseInt( height.substr( 2, 2 ), 16 );
 			id[ i++ ] = parseInt( height.substr( 4, 2 ), 16 );
 			id[ i ] = 255;
+			idx += 1;
 		}
 		context.putImageData( imageData, 0, 0 );
 	}
