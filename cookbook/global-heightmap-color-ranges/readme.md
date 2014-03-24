@@ -5,6 +5,9 @@ Global Heightmap Color Ranges Read Me
 
 [Global Heightmap Color Ranges]( http://jaanga.github.io/terrain-plus/cookbook/global-heightmap-color-ranges/latest/ )
 
+Idea from:
+
+<http://krazydad.com/tutorials/makecolors.php>
 
 ## Concept
 Buiild a color range algorithm that copes with plus or minus 11K elevations
