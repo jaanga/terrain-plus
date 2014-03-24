@@ -8,8 +8,7 @@ Read HGT Files Read Me
 * Takes a few seconds to load and display the data
 * [Source code]( https://github.com/jaanga/terrain-plus/blob/gh-pages/cookbook/read-hgt-files/ )
 
-See also this question on GIS Stack Exchange:
-
+See also this question on GIS Stack Exchange:  
 <http://gis.stackexchange.com/questions/90417/how-do-you-convert-srtm-hgt-elevations-from-wgs84-into-meters-above-sea-level>
 
 
@@ -20,7 +19,7 @@ See also this question on GIS Stack Exchange:
 		* Jonathan de Ferranti's [Viewfinder Panoramas]( http://www.viewfinderpanoramas.org/dem3.html )
 		* USGS's [SRTM Data]( http://dds.cr.usgs.gov/srtm/ )
 	* Display the data as bitmaps in HTML canvas elements
-	* Currently a bit slow because counting the numeber of different elevations takes time
+<!--	* Currently a bit slow because counting the numeber of different elevations takes time  -->
 * The longer term goal is to use this ability to translate all of de Ferranti's data into heightmaps that can be used to create 3D cartography
 
 ## Features
@@ -39,10 +38,11 @@ Thanks to Ryan for the byte swapping routine from here: <http://stackoverflow.co
 
 <!--
 ## Road Map
-
+-->
 
 ## Issues /Bugs
--->
+
+* 
 
 ## Project Links
 

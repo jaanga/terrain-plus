@@ -8,11 +8,14 @@
 <script>
 
 // File obtained from http://www.viewfinderpanoramas.org/Coverage%20map%20viewfinderpanoramas_org3.htm
-	var fileName = '../J10/N37W123.hgt';
+//	var fileName = '../J10/N37W123.hgt';
 
 // File obtained from http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/North_America/
-//	var fileName = '../N37W123.hgt/N37W123.hgt';
+	var fileName = '../N37W123.hgt/N37W123.hgt'; 
 	var xmlHttp;
+	var arrayBuffer;
+	var byteArray;
+	var swappedArray
 
 	init();
 
@@ -35,22 +38,19 @@
 	function callback() {
 		var canvas;
 		var context;
-		var arrayBuffer;
-		var byteArray;
-		var swappedArray;
-		var elevations = [];
-		var min = 1000000;
-		var max = 0;
-		var noData = 0;
-		var littleEndian = ( new Int8Array( new Int32Array([1] ).buffer )[0] === 1) ? 0 : 1;  // a test offered by Geoff
-
 		arrayBuffer = xmlHttp.response;
 		swapBytes( arrayBuffer );
 		byteArray = new Int16Array( arrayBuffer );
 
+		var elevations = [];
+		var min = 1000000;
+		var max = 0;
+		var noData = 0;
+		var littleEndian = ( new Int8Array( new Int32Array([1] ).buffer )[0] === 1) ? 0 : 1;
+
 		var txt = 'LittleEndian value: ' + littleEndian + '<br>' +
 			'File: ' + fileName + ' Length:' + byteArray.length + ' ByteLength:' + byteArray.byteLength + ' Sqrt Length:' + Math.sqrt( byteArray.length );
-
+		var elev;
 /*
 		for (var i = 0; i <  byteArray.byteLength; i++) {
 			max = byteArray[i] > max ? byteArray[i] : max;
@@ -63,9 +63,9 @@
 				elevations.push( byteArray[i] );
 			}
 		}
-		txt += ' Max:' + max + ' Min:' + min + ' No data:' + noData + ' Number of elevations:' + elevations.length + '<br>';
 */
-
+		txt += ' Max:' + max + ' Min:' + min + ' No data:' + noData + ' Number of elevations:' + elevations.length + '<br>';
+			
 		msg.innerHTML = txt;
 
 		canvas = document.body.appendChild( document.createElement( 'canvas' ) );
@@ -73,29 +73,41 @@
 		canvas.style.cssText = 'border: 1px solid black; ';
 		context = canvas.getContext( '2d' );
 
-		imageData = context.createImageData( 1201, 1201 );
-		var id = imageData.data;
-		var height, idx = 0;
-		var addSpace = 1;  // setting to a higher data can help make data more 'visible'
-		for ( var i = 0, len = id.length; i < len; i++) {
-			height = ( addSpace * byteArray[ idx++ ] + 0xffffffff + 1 ).toString( 16 ).slice( -6 );
-			id[ i++ ] = parseInt( height.substr( 0, 2 ), 16 );
-			id[ i++ ] = parseInt( height.substr( 2, 2 ), 16 );
-			id[ i++ ] = parseInt( height.substr( 4, 2 ), 16 );
-			id[ i ] = 255;
+		var imageData = context.createImageData( 1201, 1201 );
+
+// Faster Canvas Pixel Manipulation with Typed Arrays
+// See https://hacks.mozilla.org/2011/12/faster-canvas-pixel-manipulation-with-typed-arrays/
+
+// Can't get to work...
+
+		var buf = new ArrayBuffer( imageData.data.length );
+		var buf8 = new Uint8ClampedArray( buf );
+		var data = new Uint32Array( buf );
+
+		for ( var i = 0, len = imageData.data.length; i < len; i++ ) {
+			height = ( 5 * byteArray[ i ] + 0xffffff + 1 ).toString(16).slice(-6);
+
+			data[ i ] =
+				( 255 << 24 ) |    // alpha
+				( height << 16 ) | // blue
+				( height <<  8 ) | // green
+				height;            // red
 		}
-		context.putImageData( imageData, 0, 0 );
+
+		imageData.data.set( buf8 );
+		context.putImageData( imageData, 0, 0);
+
 	}
 
 	function swapBytes( buffer ){
 		var bytes = new Uint8Array( buffer );
 		var len = bytes.length;
 		var holder;
-		for ( var i = 0; i < len; i++ ){
+		for ( var i = 0; i < len; i += 2 ){
 			holder = bytes[ i ];
-			bytes[ i++ ] = bytes[ i] ;
-			bytes[ i ] = holder;
-//			bytes.splice( i, 2, bytes[ i + 1 ], bytes[ i ] );  // looks nice but can't get it to work
+			bytes[ i ] = bytes[ i + 1 ];
+			bytes[ i + 1 ] = holder;
+//			bytes.splice( i, 2, bytes[ i + 1 ], bytes[ i ] );
 		}
 	}
 
