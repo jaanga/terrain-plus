@@ -1,5 +1,5 @@
 [Jaanga](../../index.html ) &raquo;<br>[Cookbook]( ../index.html ) &raquo;<br>[Global Heightmap Color Ranges]( ./index.html )
-=========================================================================================
+============================================================================================================================
 
 <p id=rm >
 	<a href=JavaScript:displayPage("#readme.md#rm); >Read Me</a>
