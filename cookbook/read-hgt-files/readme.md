@@ -3,7 +3,14 @@ Read HGT Files Read Me
 
 ### Live Demo
 
-[Read HGT Files R2]( http://jaanga.github.io/terrain-plus/cookbook/read-hgt-files/latest/ )
+[Read HGT Files R2]( http://jaanga.github.io/terrain-plus/cookbook/read-hgt-files/r2/read-hgt-files-r2.html )
+
+* Byte swap using strings
+
+[Read HGT Files R2]( http://jaanga.github.io/terrain-plus/cookbook/read-hgt-files/r3/read-hgt-files-r2.html )
+
+* Byte swap using but slices
+
 
 * Takes a few seconds to load and display the data
 * [Source code]( https://github.com/jaanga/terrain-plus/blob/gh-pages/cookbook/read-hgt-files/ )
