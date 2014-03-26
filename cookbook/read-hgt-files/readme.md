@@ -7,7 +7,7 @@ Read HGT Files Read Me
 
 * Byte swap using strings
 
-[Read HGT Files R2]( http://jaanga.github.io/terrain-plus/cookbook/read-hgt-files/r3/read-hgt-files-r2.html )
+[Read HGT Files R3]( http://jaanga.github.io/terrain-plus/cookbook/read-hgt-files/r2/read-hgt-files-r3.html )
 
 * Byte swap using but slices
 
