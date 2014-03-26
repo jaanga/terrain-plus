@@ -28,8 +28,8 @@ Gazetteer of over 2000 locations with latitude and longitude
 
 GeoJSON Gazetteer of Jonathan de Ferranti's 3 Second files
 
-* GitHub geoJSON viewer: [de Ferranti 3 Second files]( https://github.com/jaanga/terrain-plus/blob/gh-pages/gazetteer-geojson/de-ferranti-de3-hgt-filest.geojson )
-* GitHub Raw: [de Ferranti 3 Second files]( http://jaanga.github.io/terrain-plus/gazetteer-geojson/de-ferranti-de3-hgt-filest.geojson )
+* GitHub geoJSON viewer: [de Ferranti 3 Second files]( https://github.com/jaanga/terrain-plus/blob/gh-pages/gazetteer-geojson/de-ferranti-de3-hgt-files.geojson )
+* GitHub Raw: [de Ferranti 3 Second files]( http://jaanga.github.io/terrain-plus/gazetteer-geojson/de-ferranti-de3-hgt-files.geojson )
 
 
 GeoJSON Gazetteer of highest mountains in Scotland  
