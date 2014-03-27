@@ -1,16 +1,16 @@
-[Jaanga](../../jaanga.github.io/index.html ) &raquo;<br>[Terrain](../terrain/index.html) &raquo;<br>[Terrain Plus]( ./index.html )
+[Jaanga](../../jaanga.github.io/index.html ) &raquo;<br>[Terrain Plus]( ./index.html )
 ===================================================================
 
 <p id=rm >
 	<a href=JavaScript:displayPage("#readme.md#rm"); >Read Me</a>
 </p>
 
-
+<!--
 <p id=uf >
 	<a href=./cookbook/index.html >Cookbook</a>
 </p>
 
-<!--
+
 <p id=hw >
 	<a href=./hello-world/index.html>Hello World</a>
 </p>

@@ -17,7 +17,6 @@ Terrain Plus Cookbook Read Me
 
 * Display the many types of possible overlays from the many possible sources.
 
-
 [Read HGT Files]( http://jaanga.github.io/terrain-plus/cookbook/read-hgt-files/index.html )
 
 * Superseded by HGT Viewer and HGT Utilities
@@ -42,8 +41,8 @@ Terrain Plus Cookbook Read Me
 
 You have two ways of viewing the Jaanga Cookbook files:
 
-* Web page hosted on GitHub: [jaanga.github.io/terrain-plus/cookbook/]( http://jaanga.github.io/terrain-plus/cookbook/"view the files as apps." ) <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
-* Source code on GitHub: [github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/]( https://github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/ "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
+* Web page hosted on GitHub: [jaanga.github.io/terrain-plus/cookbook]( http://jaanga.github.io/terrain-plus/cookbook/ "view the files as apps." ) <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
+* Source code on GitHub: [github.com/jaanga/terrain-plus/tree/gh-pages/cookbook]( https://github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/ "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
 
 Jaanga web log: [jaanga.com]( http://jaanga.com )
 

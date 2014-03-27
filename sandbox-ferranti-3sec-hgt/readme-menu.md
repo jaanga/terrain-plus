@@ -1,5 +1,5 @@
-[Jaanga](../../index.html ) &raquo;<br>[repo]( ../index.html ) &raquo;<br>[app]( ./index.html )
-=========================================================================================
+[Jaanga](../../index.html ) &raquo;<br>[Terrain Plus]( ../index.html ) &raquo;<br>[Sandbox]( ./index.html )
+===========================================================================================================
 
 <p id=rm >
 	<a href=JavaScript:displayPage("#readme.md#rm"); >Read Me</a>
@@ -19,5 +19,5 @@
 
 ****
 
-[Source Code on GitHub]( https://github.com/jaanga/ )  
+[Source Code on GitHub]( https://github.com/jaanga/terrain-plus/tree/gh-pages/sandbox-ferranti-3sec-hgt )  
 [Copyright and License]( https://github.com/jaanga/jaanga.github.io/blob/master/jaanga-copyright-and-mit-license.md )
