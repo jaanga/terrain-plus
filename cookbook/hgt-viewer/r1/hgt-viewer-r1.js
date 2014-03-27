@@ -1,5 +1,5 @@
-
-	var fileList = '../../../sandbox-ferranti-3sec-hgt/hgt-files-list.txt';
+	var sourceDir = '../../../sandbox-ferranti-3sec-hgt/';
+	var fileList = 'hgt-files-list.txt';
 	var startTime; 
 
 	var canvas;
@@ -13,16 +13,16 @@
 		info.innerHTML = '<h1 style=display:inline; >HGT Viewer R1</h1> - <select id=selHGT></select>' +
 			'<div id=msg></div>';
 
-		var data = requestFile( fileList );
+		var data = requestFile( sourceDir + fileList );
 		var files = data.split(/\r\n|\n/);
 
 		for (var option, i = 0; i < files.length; i++) {
 			option = document.createElement( 'option' );
-			option.innerText = files[i].substr( files[i].lastIndexOf('\\') + 1);
+			option.innerText = files[i].substr( files[i].lastIndexOf('/') + 1);
 			selHGT.appendChild( option );
 		}
 
-		selHGT.onchange = function() { requestHGTFile( files[ selHGT.selectedIndex ] ); };
+		selHGT.onchange = function() { requestHGTFile( sourceDir + files[ selHGT.selectedIndex ] ); };
 		selHGT.selectedIndex = 33;
 
 		canvas = document.body.appendChild( document.createElement( 'canvas' ) );
@@ -30,7 +30,7 @@
 		canvas.style.cssText = 'border: 1px solid black; ';
 		context = canvas.getContext( '2d' );
 
-		requestHGTFile( files[ selHGT.selectedIndex ] );
+		requestHGTFile( sourceDir + files[ selHGT.selectedIndex ] );
 	}
 
 	function requestHGTFile( fname ) {
