@@ -90,6 +90,7 @@ console.log( 'Load time in ms: ', new Date() - startTime );
 	function requestHGTFile( fileName ) {
 console.log( fileName );
 		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.crossOrigin = "Anonymous";
 		xmlHttp.responseType = "arraybuffer";
 		xmlHttp.open( 'GET', fileName, true );
 		xmlHttp.send( null );
