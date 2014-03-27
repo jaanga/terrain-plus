@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang=en >
+<head>
+<meta name=viewport content=width=device-width,initial-scale=1 >
+<meta charset=utf-8 >
+</head>
+<body>
+<script>
+
+// File obtained from http://www.viewfinderpanoramas.org/Coverage%20map%20viewfinderpanoramas_org3.htm
+//	var fileName = '../J10/N37W123.hgt';
+
+// File obtained from http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/North_America/
+	var fileName = '../N37W123.hgt/N37W123.hgt'; 
+	var xmlHttp;
+	var arrayBuffer;
+	var byteArray;
+	var swappedArray
+
+	init();
+
+	function init() {
+		document.body.style.cssText = ' font: bold 12pt monospace; ';
+		var info = document.body.appendChild( document.createElement( 'div' ) );
+		info.innerHTML = '<h1>Read HGT Files</h1>' +
+			'<div id=msg></div>';
+		requestFile( fileName );
+	}
+
+	function requestFile( fname ) {
+		xmlHttp = new XMLHttpRequest();
+		xmlHttp.responseType = "arraybuffer";
+		xmlHttp.open( 'GET', fname, true );
+		xmlHttp.send( null );
+		xmlHttp.onload = callback;
+	}
+
+	function callback() {
+		var canvas;
+		var context;
+		arrayBuffer = xmlHttp.response;
+		swapBytes( arrayBuffer );
+		byteArray = new Int16Array( arrayBuffer );
+
+		var elevations = [];
+		var min = 1000000;
+		var max = 0;
+		var noData = 0;
+		var littleEndian = ( new Int8Array( new Int32Array([1] ).buffer )[0] === 1) ? 0 : 1;
+
+		var txt = 'LittleEndian value: ' + littleEndian + '<br>' +
+			'File: ' + fileName + ' Length:' + byteArray.length + ' ByteLength:' + byteArray.byteLength + ' Sqrt Length:' + Math.sqrt( byteArray.length );
+		var elev;
+/*
+		for (var i = 0; i <  byteArray.byteLength; i++) {
+			max = byteArray[i] > max ? byteArray[i] : max;
+			if ( byteArray[i]  < -32767) {
+				noData++;
+			} else {
+				min = byteArray[i] < min ? byteArray[i] : min;
+			}
+			if ( elevations.indexOf( byteArray[i] ) < 0 ) {
+				elevations.push( byteArray[i] );
+			}
+		}
+*/
+		txt += ' Max:' + max + ' Min:' + min + ' No data:' + noData + ' Number of elevations:' + elevations.length + '<br>';
+			
+		msg.innerHTML = txt;
+
+		canvas = document.body.appendChild( document.createElement( 'canvas' ) );
+		canvas.width = canvas.height = 1201;
+		canvas.style.cssText = 'border: 1px solid black; ';
+		context = canvas.getContext( '2d' );
+
+		var imageData = context.createImageData( 1201, 1201 );
+
+// Faster Canvas Pixel Manipulation with Typed Arrays
+// See https://hacks.mozilla.org/2011/12/faster-canvas-pixel-manipulation-with-typed-arrays/
+
+// Can't get to work...
+
+		var buf = new ArrayBuffer( imageData.data.length );
+		var buf8 = new Uint8ClampedArray( buf );
+		var data = new Uint32Array( buf );
+
+		for ( var i = 0, len = imageData.data.length; i < len; i++ ) {
+			height = ( 5 * byteArray[ i ] + 0xffffff + 1 ).toString(16).slice(-6);
+
+			data[ i ] =
+				( 255 << 24 ) |    // alpha
+				( height << 16 ) | // blue
+				( height <<  8 ) | // green
+				height;            // red
+		}
+
+		imageData.data.set( buf8 );
+		context.putImageData( imageData, 0, 0);
+
+	}
+
+	function swapBytes( buffer ){
+		var bytes = new Uint8Array( buffer );
+		var len = bytes.length;
+		var holder;
+		for ( var i = 0; i < len; i += 2 ){
+			holder = bytes[ i ];
+			bytes[ i ] = bytes[ i + 1 ];
+			bytes[ i + 1 ] = holder;
+//			bytes.splice( i, 2, bytes[ i + 1 ], bytes[ i ] );
+		}
+	}
+
+</script>
+</body>
+</html>

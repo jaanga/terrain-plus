@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang=en >
+<head>
+<meta charset=utf-8 >
+</head>
+<body>
+<script>
+
+// File obtained from http://www.viewfinderpanoramas.org/Coverage%20map%20viewfinderpanoramas_org3.htm
+	var fileName = '../J10/N37W123.hgt';
+
+// File obtained from http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/North_America/
+//	var fileName = '../N37W123.hgt/N37W123.hgt'; 
+	var xmlHttp;
+	var arrayBuffer;
+	var byteArray;
+
+	init();
+
+	function init() {
+		document.body.style.cssText = ' font: bold 12pt monospace; ';
+		var info = document.body.appendChild( document.createElement( 'div' ) );
+		info.innerHTML = '<h1>Read HGT Files</h1>' +
+			'<div id=msg></div>';
+
+		requestFile( fileName );
+	}
+
+	function callback() {
+		var canvas;
+		var context;
+		arrayBuffer = xmlHttp.response;
+		byteArray = new Int16Array( arrayBuffer );
+ 
+		var min = 1000000;
+		var max = 0;
+		var noData = 0;
+		var txt = 'File: ' + fileName + ' Length:' + byteArray.length + ' ByteLength:' + byteArray.byteLength + ' Sqrt of Length:' + Math.sqrt( byteArray.length ), txt2 = '';
+		for (var i = 0; i <  50; i++) {  // byteArray.byteLength
+			max = byteArray[i] > max ? byteArray[i] : max;
+			if ( byteArray[i]  < -3200) {
+				noData++;
+			} else {
+				min = byteArray[i] < min ? byteArray[i] : min;
+			}
+			txt2 += i + ':' + byteArray[i] + ' - ';
+		}
+		txt += ' Max:' + max + ' Min:' + min + ' No data:' + noData + ' First 50:<br>' + txt2;
+			
+		msg.innerHTML = txt;
+
+		canvas = document.body.appendChild( document.createElement( 'canvas' ) );
+		canvas.width = canvas.height = 1201;
+		canvas.style.cssText = 'border: 1px solid black; ';
+		context = canvas.getContext( '2d' );
+
+		var imgData = context.createImageData( 1201, 1201 );
+		var idx = 0, height;
+		for ( var i = 0; i < imgData.data.length; i += 4 ) {
+// following line found at http://blog.thematicmapping.org/2013/10/terrain-building-with-threejs.html
+			height = Math.round( byteArray[ idx ] / 64 );
+			imgData.data[ i + 0 ] = height;
+			imgData.data[ i + 1 ] = height;
+			imgData.data[ i + 2 ] = height;
+			imgData.data[ i + 3 ] = 255;
+			idx++;
+		}
+		context.putImageData( imgData, 0, 0 );
+	}
+
+	function requestFile( fname ) {
+		xmlHttp = new XMLHttpRequest();
+		xmlHttp.responseType = "arraybuffer";
+		xmlHttp.open( 'GET', fname, true );
+		xmlHttp.send( null );
+		xmlHttp.onload = callback;
+	}
+</script>
+</body>
+</html>
