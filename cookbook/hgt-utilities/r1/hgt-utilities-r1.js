@@ -1,5 +1,7 @@
 
-	var fileList = '../../../sandbox-ferranti-3sec-hgt/hgt-files-list.txt';
+	var sourceDir = '../../../sandbox-ferranti-3sec-hgt/';
+	var fileList = 'hgt-files-list.txt';
+
 	var saveName = 'hgt-list.geojson';
 	var startTime;
 
@@ -45,12 +47,12 @@
 		var post1 = ']' + '}, ' + '"properties": { ' + '"name": "';
 		var post2 = '" ' + '}' + ' },' ;
 
-		var list = requestFile( fileList );
+		var list = requestFile( sourceDir + fileList );
 		var lines = list.split(/\r\n|\n/);
 		var line;
 		for (var i = 0, len = lines.length - 1; i < len; i++) {
 			line = lines[i];
-			finalSlash = 1 + line.lastIndexOf('\\');
+			finalSlash = 1 + line.lastIndexOf('/');
 			nameIn = lines[i].substr( finalSlash, 7);
 			textLeft += nameIn + b;
 
@@ -76,11 +78,11 @@
 		var startTime = new Date();
 
 		divRight.innerHTML = '';
-		var list = requestFile( fileList );
+		var list = requestFile( sourceDir + fileList );
 		var lines = list.split(/\r\n|\n/);
 		var arrayBuffer;
 		for (var i = 0, len = lines.length - 1; i < len; i++) {
-			requestHGTFile( lines[ i ] );
+			requestHGTFile( sourceDir + lines[ i ] );
 		}
 		saveName = 'hgt-errors.txt';
 

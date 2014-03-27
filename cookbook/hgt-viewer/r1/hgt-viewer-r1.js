@@ -59,9 +59,9 @@
 		imageData = context.createImageData( 1201, 1201 );
 		var id = imageData.data;
 		var height, index = 0;
-		var addSpace = 80;  // setting to a higher data can help make data more 'visible'
+		var addSpace = 80;  // setting to a higher data may help make data more 'visible'
 		for ( var i = 0, len = id.length; i < len; i++) {
-			height = ( addSpace * elevations[ index++ ] + 0xffffffff + 1 ).toString( 16 ).slice( -6 );
+			height = (  addSpace * elevations[ index++ ] + 0xffffff + 1 ).toString( 16 ).slice( -6 );
 			id[ i++ ] = parseInt( height.substr( 0, 2 ), 16 );
 			id[ i++ ] = parseInt( height.substr( 2, 2 ), 16 );
 			id[ i++ ] = parseInt( height.substr( 4, 2 ), 16 );
