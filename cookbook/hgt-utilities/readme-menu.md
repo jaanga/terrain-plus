@@ -1,5 +1,5 @@
-[Jaanga](../../jaanga.github.io/index.html ) &raquo;<br>[Terrain](../terrain/index.html) &raquo;<br>[Terrain Plus]( ./index.html )
-===================================================================
+[Jaanga](../../../index.html ) &raquo;<br>[Terrain Plus]( ../../index.html ) &raquo;<br>[Cookbook]( ../index.html ) &raquo;<br>[Read HGT Files]( ./index.html )
+=========================================================================================
 
 <p id=rm >
 	<a href=JavaScript:displayPage("readme.md",rm); >Read Me</a>
