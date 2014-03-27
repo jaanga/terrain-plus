@@ -3,7 +3,7 @@ Read Me
 
 ### Live Demo
 
-[HGT Utilities R1]( http://jaanga.github.io/terrain-plus/cookbook/hgt-viewer/latest/ )
+[HGT Utilities R1]( http://jaanga.github.io/terrain-plus/cookbook/hgt-utilities/latest/ )
 
 ## Concept
 
