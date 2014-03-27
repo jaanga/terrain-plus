@@ -9,13 +9,14 @@ HGT Viewer Read Me
 ## Concept
 
 ### Mission
-Provide a web browser viewer for HGT files - which are binary data containers of height elevation data
+Provides a web browser viewer for HGT files - binary data containers of elevation data
 
 ### Vision
 Help make it easier and faster to visualize mashed-up elevation data from a variety of sources
 
 ## Features
-* Displays files in 'Sandbox Ferranti 3 Sec HGT'
+* Displays HGT files in 'Sandbox Ferranti 3 Sec HGT'
+* Reads SRTM files
 
 
 ## Road Map
@@ -23,7 +24,7 @@ Help make it easier and faster to visualize mashed-up elevation data from a vari
 
 
 ## Issues /Bugs
-* Elevation colors are not being displayed appopriately. 
+* Elevation colors are not being displayed appropriately. 
 
 ## Project Links
 

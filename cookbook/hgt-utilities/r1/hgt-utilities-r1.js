@@ -169,7 +169,7 @@ console.log( fileName );
 				'<ul>' +
 					'<li>List the index and elevation of data < 0 or > 8848 meters</li>' +
 				'</ul>' +
-				'<a href="https://github.com/jaanga/terrain-plus/" target="_blank">Source code</a><br>' +
+				'<a href="https://github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/hgt-utilities" target="_blank">Source code</a><br>' +
 				'<small>credits: ' +
 //				'<a href="http://threejs.org" target="_blank">three.js</a> - ' +
 //				'<a href="http://khronos.org/webgl/" target="_blank">webgl</a> - ' +

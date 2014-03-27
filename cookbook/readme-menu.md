@@ -5,6 +5,7 @@
 	<a href=JavaScript:displayPage("#readme.md#rm"); >Read Me</a>
 </p>
 
+<!--
 <p id=hgt >
 	<a href=JavaScript:displayPage("#./read-hgt-files/readme.md#hgt"); >Read HGT Files</a>
 </p>
@@ -12,7 +13,7 @@
 <p id=gov >
 	<a href=JavaScript:displayPage("#./gazetteer-overlays/readme.md#gov"); >Gazetteer Overlay</a>
 </p>
-
+-->
 
 ****
 

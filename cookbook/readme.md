@@ -1,20 +1,31 @@
 Terrain Plus Cookbook Read Me
 =============================
 
-[Read HGT Files]( http://jaanga.github.io/terrain-plus/cookbook/read-hgt-files/index.html )
+[HGT Viewer]( http://jaanga.github.io/terrain-plus/cookbook/hgt-viewer/ )
 
-* Read Jonathan de Ferranti's HGT files and display directly
+* Provides a web browser viewer for HGT files - binary data containers of elevation data
 
+[HGT Utilities]( http://jaanga.github.io/terrain-plus/cookbook/hgt-utilities/ )
+
+* Create geoJSON files from and scan for data anomalies in HGT files 
+
+[Global Heightmap Color Ranges]( http://jaanga.github.io//terrain-plus/cookbook/global-heightmap-color-ranges/ )
+
+* Provides a viewer for a color range algorithm that copes with plus or minus 11K elevations
 
 [Gazetteer Overlays]( http://jaanga.github.io/terrain-plus/cookbook/gazetteer-overlays/index.html )
 
 * Display the many types of possible overlays from the many possible sources.
 
 
+[Read HGT Files]( http://jaanga.github.io/terrain-plus/cookbook/read-hgt-files/index.html )
+
+* Superseded by HGT Viewer and HGT Utilities
+
 
 ## Concept
 * Little apps built to demo particular aspects of a larger projects
-* Not always meaningful outside of their contect
+* Not always meaningful outside of their context
 * But may include some interesting code
 
 <!--
@@ -44,6 +55,11 @@ This app is at an early and volatile stage. Not all licensing requirements may h
 
 
 ## Change Log
+
+2014-03-26 ~ Theo
+
+* Add HGT Viewer and Utilities links
+* Add Global Heightmap Color Ranges
 
 2014-03-19 ~ Theo
 
