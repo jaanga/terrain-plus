@@ -25,6 +25,7 @@ Help make it easier and faster to visualize mashed-up elevation data from a vari
 
 ## Issues /Bugs
 * Elevation colors are not being displayed appropriately. 
+* May take a minute or more to load
 
 ## Credits
 
