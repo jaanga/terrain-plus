@@ -1,5 +1,5 @@
 
-	var sourceDir = '../../../sandbox-ferranti-3sec-hgt/';
+	var sourceDir = '../../../data-samples/ferranti-3sec-hgt/';
 	var fileList = 'hgt-files-list.txt';
 
 	var saveName = 'hgt-list.geojson';
