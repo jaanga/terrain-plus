@@ -15,6 +15,7 @@ Provides a web browser viewer for HGT files - binary data containers of elevatio
 Help make it easier and faster to visualize mashed-up elevation data from a variety of sources
 
 ## Features
+* Numbers are displayed as you mve your mouse over the image
 * Displays HGT files in 'Sandbox Ferranti 3 Sec HGT'
 * Reads SRTM files
 
@@ -43,6 +44,10 @@ This project is a continuation of [Read HGT Files]( http://jaanga.github.io/terr
 This repository contains files that are  at an early and volatile stage. Not all licensing requirements may have been fully met let alone identified. It is the intension of the authors to play fair and all such requirements will either be met or the feature in question will turned off.
 
 ### Change Log
+
+2014-03-27 ~ Theo
+
+* R2 add mouseover read out
 
 2014-03-26 ~ Theo
 
