@@ -86,13 +86,15 @@ console.log( 'Load time in ms: ', new Date() - startTime );
 	}
 
 	function checkData() {
-		for (var i = 0, txt = 'No outliers found...', len = elevations.length; i < len; i++) {
+		var len = elevations.length;
+		var txt = 'No outliers found...'
+		for (var i = 0;  i < len; i++) {
 			if ( elevations[i] < 0 || elevations[ i] > 8848 ) {
 				idd[ i * 4] = idd[ i * 4 + 1] = idd[ i * 4 + 2] = idd[ i * 4 + 3] = 255
 				txt += i + ' ' + elevations[i] + ' - ';
 			}
 		}
-		msg.innerHTML = 'Outliers: ' + txt;
+		msg.innerHTML = len + ' items read<br>Outliers: ' + txt;
 	}
 	function onMMove( e ) {
 		var x = e.offsetX;
