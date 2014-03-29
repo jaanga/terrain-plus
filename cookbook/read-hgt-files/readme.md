@@ -38,6 +38,7 @@ See also this question on GIS Stack Exchange:
 
 ## Credits
 
+
 Thanks to GeoffMc and BradHards for helping with the 'big endian' issue.   
 Thanks to radouxju for the nice link on alternative solutions.  
 Thanks to Ryan for the byte swapping routine from here: <http://stackoverflow.com/questions/7869752/javascript-typed-arrays-and-endianness>

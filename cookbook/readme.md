@@ -1,13 +1,14 @@
 Terrain Plus Cookbook Read Me
 =============================
 
+[HGT Viewer R3]( http://jaanga.github.io/terrain-plus/cookbook/hgt-viewer/ )
+
+* Provides a web browser viewer for HGT files - binary data containers of elevation data
+* 2014-03-28 ~ Currently where the action is...
+
 [SRTM30 Plus Viewer]( http://jaanga.github.io/terrain-plus/cookbook/srtm30-plus-viewer/ )
 
 * Provides a web browser viewer for SRTM30 Plus files - binary data containers of elevation data
-
-[HGT Viewer]( http://jaanga.github.io/terrain-plus/cookbook/hgt-viewer/ )
-
-* Provides a web browser viewer for HGT files - binary data containers of elevation data
 
 [HGT Utilities]( http://jaanga.github.io/terrain-plus/cookbook/hgt-utilities/ )
 
