@@ -1,4 +1,10 @@
 
+## General Topography
+
+
+### USGS SRTM 1 Second
+http://dds.cr.usgs.gov/srtm/version2_1/SRTM1/
+
 
 ## Bathymetric Data
 
@@ -42,19 +48,16 @@ credit: ‘The GEBCO_08 Grid, version 20100927, http://www.gebco.net’.
 
 
 ### Satellite Geodesy research group at Scripps Institution of Oceanography, University of California San Diego
+
 http://topex.ucsd.edu/WWW_html/mar_topo.html
 ftp://topex.ucsd.edu/pub/srtm30_plus/topo30/
-
+ftp://topex.ucsd.edu/pub/global_topo_1min/ << has img files
 
 2014-03-27 ~ Looks like a good data set to use as the base
 
-Update 2013-12
-SRTM 30 second ~1km ~120/degree 
-Data are in SRTM format - most likely could read with HGT viewer 
-
-
-
-Also: ftp://topex.ucsd.edu/pub/global_topo_1min/ << has img files
+Latest update: 2013-12
+SRTM 30 second ~1km ~120 data points/degree 
+Data are in SRTM format - readable with Jaanga HGT viewer 
 
 > The pixel-registered data are stored in 33 files with names corresponding to the upper left corner of the array shown below. 
 > The data are also merged into a single large (1.9 Gbyte, 2-byte integer) file as well as smaller 1-minute and 2-minute netcdf versions.

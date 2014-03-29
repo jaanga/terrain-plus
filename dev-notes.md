@@ -1,6 +1,16 @@
 Terrain Dev Notes
 =================
 
+2014-03-29 ~ Theo
+
+Added bettr eroor checking
+Added ability to read Scripps Institute SRTM files
+Added Put canvas image in a DIV so menu and readout stay visible when image is crolled
+Enhanced readabiity of variable names and minor code clean-up
+
+All going ver well
+
+
 
 2014-03-28 ~ Theo
 
