@@ -29,10 +29,8 @@
 		canvas = document.body.appendChild( document.createElement( 'canvas' ) );
 		canvas.width = canvas.height = 1201;
 		canvas.onmousemove = onMMove;
-
 		canvas.style.cssText = 'border: 1px solid black; ';
 		context = canvas.getContext( '2d' );
-
 
 		requestHGTFile( sourceDir + files[ selHGT.selectedIndex ] );
 	}
