@@ -3,7 +3,7 @@ HGT Viewer Read Me
 
 ### Live Demo
 
-[HGT Viewer R3]( http://jaanga.github.io/terrain-plus/cookbook/hgt-viewer/latest/ )
+[HGT Viewer R4]( http://jaanga.github.io/terrain-plus/cookbook/hgt-viewer/latest/ )
 
 
 ## Concept
@@ -14,18 +14,22 @@ Provide a web browser viewer for HGT files - binary data containers of elevation
 ### Vision
 Help make it easier and faster to visualize mashed-up elevation data from a variety of sources
 
+
 ## Features
 * Reads the binary data in an HGT or SRTM file and displays it as a colored image
 * Converts 'big endian' data to 'little endian' data
-* Displays HGT files in ['Data-Damples/ Ferranti 3 Sec HGT']( https://github.com/jaanga/terrain-plus/tree/gh-pages/data-samples/ferranti-3sec-hgt )
-* Elevation, X & Y, RGB and other data are displayed as you move your mouse over the image
+* Displays HGT files in ['Data-Samples folder']( https://github.com/jaanga/terrain-plus/tree/gh-pages/data-samples/ )
+	* Samples incude 1 Minute data from Scripps Institut, 3 Seconf=d data from de Ferranti and 1 Second data from the USGS
+* Elevation, X & Y, RGB, minimum and maximim elevations and other data are displayed as you move your cursor over the image
+	* Verifies that data goes from file to image to data correctly
 * Select to view in 'raw' or 'pretty' colors
 * Tests a color range algorithm that can cope with plus or minus 11K elevations
-* Check the file for data below sea level or higher than Mount Everest
-* Save the data as a PNG bitmap
+* Checks the file for exceptions - data lower than the Marianas trech or higher than Mount Everest
+* Provides ability to save the data as a PNG bitmap
 
 
 ## Road Map
+* Provide a color look up table until a nice color algorithm is worked out
 * Have all the features of [PNG Viewer]( http://jaanga.github.io/terrain-viewer/png-viewer/readme-reader.html )
 * Permalinks
 * Capability to differentiate distinctly color ranges above and below zero
@@ -36,7 +40,8 @@ Help make it easier and faster to visualize mashed-up elevation data from a vari
 
 ## Credits
 
-Jonathan de Ferranti's [Viewfinder Panoramas]( http://www.viewfinderpanoramas.org/dem3.html )  
+Jonathan de Ferranti's [Viewfinder Panoramas]( http://www.viewfinderpanoramas.org/dem3.html )    
+Scripps Institution of Oceanography, University of California San Diego, [Satellite Geodesy research group]( http://topex.ucsd.edu/WWW_html/mar_topo.html )  
 USGS's [SRTM Data]( http://dds.cr.usgs.gov/srtm/ )  
 
 Thanks for the color range ideas and algorithm from Jim Bumgardner at <http://krazydad.com/tutorials/makecolors.php>  

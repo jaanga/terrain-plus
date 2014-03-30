@@ -3,8 +3,13 @@
 
 
 ### USGS SRTM 1 Second
-http://dds.cr.usgs.gov/srtm/version2_1/SRTM1/
 
+<http://dds.cr.usgs.gov/srtm/version2_1/SRTM1/>
+
+
+### Viewfinder Panoramas
+
+<http://www.viewfinderpanoramas.org/dem3.html>
 
 ## Bathymetric Data
 
