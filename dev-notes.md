@@ -8,7 +8,39 @@ Added ability to read Scripps Institute SRTM files
 Added Put canvas image in a DIV so menu and readout stay visible when image is crolled
 Enhanced readabiity of variable names and minor code clean-up
 
-All going ver well
+All going very well
+
+14:39
+Added two USGS 1 Second SRTM files. They are identified just as the others.
+
+All working fast and smoothly.
+
+Perhaps the only issue is that thr 'pretty' viewer could be prettier. Maybe a lookup table version should be added.
+
+So the workflow is looking like this:
+
+Download all the Scripps 1 minute files / 120 points per degree 
+These files cover the entire globe
+These files have zero voids
+Translate data from srtm to PNG for zoom level 7
+This is the base map.
+
+Source all of de Ferranti's 3 second files
+These fies cover the land masses over the entire globe
+All ocean data is kept with an levation of zero
+
+Run throught all the Scripps data
+If there is no de Ferrant tile to cover then the Scripps tile stays
+If there is a de Ferranti tile, then enlarge the Scripps PNG tile to 12001 points per degree.
+Read the de Ferranti tile and the Scripps tile data simulatneously
+If the de Ferranti data point says the elevation is 0 and Scripps says it is -7,689 then Scripps wins
+For data above 0, de Ferranti's wins. If there is no de Ferranti data then Scripps data stays.  
+
+Repeat the de Ferranti data overlay process with 1 Second data whereever available
+
+In this manner any voids in the data are automaticaly filled by the lower resolution data 
+- which has been vetted and authorized by a well-known cartographer.
+
 
 
 

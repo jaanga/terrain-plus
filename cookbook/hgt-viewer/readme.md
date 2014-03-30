@@ -5,11 +5,10 @@ HGT Viewer Read Me
 
 [HGT Viewer R4]( http://jaanga.github.io/terrain-plus/cookbook/hgt-viewer/latest/ )
 
-
 ## Concept
 
 ### Mission
-Provide a web browser viewer for HGT files - binary data containers of elevation data
+Provide a web browser viewer for HGT and SRM files - binary data containers of elevation data
 
 ### Vision
 Help make it easier and faster to visualize mashed-up elevation data from a variety of sources
@@ -62,8 +61,8 @@ Background data on the HGT file format is available from:
 
 You have two ways of viewing the HGT Viewer files:
 
-* Web page hosted on GitHub: [jaanga.github.io]( http://jaanga.github.io/jaanga/terrain-plus/cookbook/hgt-viewer "view the files as apps." ) <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
-* Source code on GitHub: [github.com/jaanga]( https://github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/hgt-viewer "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
+* Web page hosted on GitHub: [jaanga.github.io]( http://jaanga.github.io/terrain-plus/cookbook/hgt-viewer/ "view the files as apps." ) <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
+* Source code on GitHub: [github.com/jaanga]( https://github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/hgt-viewer/ "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
 
 This project is a continuation of [Read HGT Files]( http://jaanga.github.io/terrain-plus/cookbook/read-hgt-files/readme-reader.html )
 
