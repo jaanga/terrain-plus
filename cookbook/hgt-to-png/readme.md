@@ -5,11 +5,11 @@ HGT to PNG Utility Read Me
 
 Click any of the 33 files vere to view:
 
-<http://aceit.us/terrain-srtm30-plus/png/?
+<http://aceit.us/terrain-srtm30-plus/png/>
 
 * Rather than clogging up GitHub, the sample filee are on an external server
 * All 33 Scripps Institute files translated into PNG files
-* First 12 files are in the beautiful(but as yet unsuable BGR) format. Remaining files are standars RGB heightmaps
+* First 12 files are in the beautiful (but as yet unsuable BGR) format. Remaining files are standars RGB heightmaps
 
 
 ## Concept
