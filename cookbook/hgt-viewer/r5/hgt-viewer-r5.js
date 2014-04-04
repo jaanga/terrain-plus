@@ -145,7 +145,6 @@ console.log( 'Load time in ms: ', new Date() - startTime );
 		var indexXY = canvas.width * y + x;
 		var indexHex = parseInt( '0x'  + hex, 16);
 
-
 		msg.innerHTML =  
 			'x:' + x + ' y:' + y + '<br>rgb:' + p[0] + ' ' +  p[1] + ' ' + p[2]  + '<br>hex: #' + hex + '<br>' +
 			'indexXY: ' + indexXY + ' indexHex: ' + indexHex + '<br>' +

@@ -1,4 +1,4 @@
-[Jaanga](../../jaanga.github.io/index.html ) &raquo;<br>[Terrain Plus]( ./index.html )
+[Jaanga](../index.html ) &raquo;<br>[Terrain Plus]( ./index.html )
 ===================================================================
 
 <p id=rm >
