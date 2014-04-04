@@ -1,14 +1,15 @@
 Terrain Plus Cookbook Read Me
-=============================
+===
 
-[HGT Viewer R3]( http://jaanga.github.io/terrain-plus/cookbook/hgt-viewer/ )
+[HGT to PNG]( http://jaanga.github.io/terrain-plus/cookbook/hgt-to-png/ )
 
-* Provides a web browser viewer for HGT files - binary data containers of elevation data
-* 2014-03-28 ~ Currently where the action is...
+* Client-side Node.js utility that translates a directory of HGT or SRTM files to PNG files and saves them to disk
+* Updated 2014-04-03
 
-[SRTM30 Plus Viewer]( http://jaanga.github.io/terrain-plus/cookbook/srtm30-plus-viewer/ )
+[HGT Viewer]( http://jaanga.github.io/terrain-plus/cookbook/hgt-viewer/ )
 
-* Provides a web browser viewer for SRTM30 Plus files - binary data containers of elevation data
+* Provides a web browser viewer for HGT and SRTM files - binary data containers of elevation data
+* 2014-04-03 ~  ~ Currently where the action is...
 
 [HGT Utilities]( http://jaanga.github.io/terrain-plus/cookbook/hgt-utilities/ )
 
@@ -22,6 +23,11 @@ Terrain Plus Cookbook Read Me
 
 * Display the many types of possible overlays from the many possible sources.
 
+[SRTM30 Plus Viewer]( http://jaanga.github.io/terrain-plus/cookbook/srtm30-plus-viewer/ )
+
+* Provides a web browser viewer for SRTM30 Plus files - binary data containers of elevation data
+* Superseded by HGT Viewer and HGT Utilities
+
 [Read HGT Files]( http://jaanga.github.io/terrain-plus/cookbook/read-hgt-files/index.html )
 
 * Superseded by HGT Viewer and HGT Utilities
@@ -32,15 +38,6 @@ Terrain Plus Cookbook Read Me
 * Not always meaningful outside of their context
 * But may include some interesting code
 
-<!--
-## Features
-
-
-## Road Map
-
-
-## Issues /Bugs
--->
 
 ## Project Links
 
@@ -59,6 +56,10 @@ This app is at an early and volatile stage. Not all licensing requirements may h
 
 
 ## Change Log
+
+2014-04-03 ~ 
+
+* Add HGT to PNG
 
 2014-03-27 ~ Theo
 

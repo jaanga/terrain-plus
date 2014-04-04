@@ -132,6 +132,8 @@ console.log( 'Load time in ms: ', new Date() - startTime );
 	}
 
 	function onMMove( e ) {
+		if ( !elevations ) return;
+
 		var x = e.offsetX;
 		var y = e.offsetY;
 		var p = context.getImageData( x, y, 1, 1).data;
@@ -142,6 +144,7 @@ console.log( 'Load time in ms: ', new Date() - startTime );
 		}
 		var indexXY = canvas.width * y + x;
 		var indexHex = parseInt( '0x'  + hex, 16);
+
 
 		msg.innerHTML =  
 			'x:' + x + ' y:' + y + '<br>rgb:' + p[0] + ' ' +  p[1] + ' ' + p[2]  + '<br>hex: #' + hex + '<br>' +
@@ -173,7 +176,7 @@ console.log( 'Load time in ms: ', new Date() - startTime );
 	function addMenu() {
 		var menu = document.body.appendChild( document.createElement( 'div' ) );
 		menu.id = 'movable';
-		menu.style.cssText = ' background-color: #ccc; left: 10px; opacity: 0.8; top: 10px; max-width: 320px; ';
+		menu.style.cssText = ' background-color: #ccc; left: 10px; opacity: 0.8; top: 10px; width: 330px; ';
 		menu.addEventListener( 'mousedown', mouseMove, false );
 		menu.innerHTML = '<div onclick=menu.style.display="none"; >[x]</div>' +
 			'<h1>' +

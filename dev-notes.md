@@ -1,11 +1,43 @@
-Terrain Dev Notes
-=================
+Terrain Plus Dev Notes
+===
+
+
+2014-04-03 ~ Theo
+
+HGT Viewer R5
+Much faster  
+- Uses straight multiplication instead of bit slicing. Probably having to calculate the power of - each time - slows it down
+
+Using red or green as the primary color is much more readable. Add this as a choice to the viewr
+
+HGT to PNG
+
+Built with Node.js  
+Reads a directory of SRTM files, translates them to PNGs and writes them to disk  
+Only 62 lines of code
+Translates a 56 MB file to ~30 MB PNG in under 20 seconds
+
+
+2014-04-02 ~ Theo
+
+HGT to PNG
+Project created 
+This file started
+
+12:17
+Mission accomplished: can translate the 33 Scripps binary data files to PNG in a few minutes
+
+14:10
+Well, that was easy. Can read 56 MB HGT file and translate to 32 MB PNG in a few seconds. Easy Peasy.
+
+Node.js + pngjs = really strong stuff
 
 2014-03-29 ~ Theo
 
-Added bettr eroor checking
+HGT Viewer
+Added better error checking
 Added ability to read Scripps Institute SRTM files
-Added Put canvas image in a DIV so menu and readout stay visible when image is crolled
+Added put canvas image in a DIV so menu and readout stay visible when image is crolled
 Enhanced readabiity of variable names and minor code clean-up
 
 All going very well

@@ -1,27 +1,36 @@
-Read Me
-=======
+HGT to PNG Utility Read Me
+===
 
-### Live Demo
+### Sample Files
 
-xxx xxx
-<iframe src="http://jaanga.github.io/index.html" width=100% height=500px class='overview' >
-There is an `iframe` here. It is not visible when viewed on github.com/fgx. To view, please go to fgx.github.io. See 'Project Links' just below.
-</iframe>
+Click any of the 33 files vere to view:
 
+<http://aceit.us/terrain-srtm30-plus/png/?
+
+* Rather than clogging up GitHub, the sample filee are on an external server
+* All 33 Scripps Institute files translated into PNG files
+* First 12 files are in the beautiful(but as yet unsuable BGR) format. Remaining files are standars RGB heightmaps
 
 
 ## Concept
 
 ### Mission
+Provide a fast simple utility that translates SRTM or HGT binary data files into PNG files 
 
-###Vision
-
+### Vision
+Make it fast and easy to access 3D elevation data over the Web
 
 ## Features
+
+* Built with Node.js  
+* Reads a directory of SRTM files, translates them to PNGs and writes them to disk  
+* Only 62 lines of code
+* Translates a 56 MB file to ~30 MB PNG in under 20 seconds
 
 
 ## Road Map
 
+* Set red as the default color rather than blue
 
 ## Issues /Bugs
 
@@ -30,22 +39,8 @@ There is an `iframe` here. It is not visible when viewed on github.com/fgx. To v
 
 You have two ways of viewing the Jaanga files:
 
-* Web page hosted on GitHub: [jaanga.github.io]( http://jaanga.github.io/ "view the files as apps." ) <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
-* Source code on GitHub: [github.com/jaanga]( https://github.com/jaanga/ "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
-
-
-### System Requirements
-
-In order to view the files on this site you will need a device and browser that provides good support for [WebGL](http://get.webgl.org/)
-WebGL is the JavaScript API for rendering interactive 3D graphics and 2D graphics within any compatible web browser without the use of plug-ins. 
-
-Generally this means a computer with an Intel Core i5 processor or better with an external GPU such as one made by Nvidia. 
-Successful use of the apps on a phone or tablet is highly unlikely. 
-A mouse or other pointing device with a scroll wheel is also highly recommended so that you can zoom, pant and rotate in 3D.
- 
-The apps here are currently being built and tested with the Google Chrome browser. 
-Bugs on browsers other than Chrome need not be reported until such time as the work settles down and an effort to support more browsers is initiated.
-
+* Web page hosted on GitHub: [jaanga.github.io]( http://jaanga.github.io/terrain-plus/cookbook/hgt-to-png/ "view the files as apps." ) <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
+* Source code on GitHub: [github.com/jaanga]( https://github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/hgt-to-png/ "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
 
 
 ### Copyright and License
@@ -54,8 +49,12 @@ Bugs on browsers other than Chrome need not be reported until such time as the w
 
 This repository contains files that are  at an early and volatile stage. Not all licensing requirements may have been fully met let alone identified. It is the intension of the authors to play fair and all such requirements will either be met or the feature in question will turned off.
 
+
 ### Change Log
 
+2014-04-03 ~ Theo
+
+* Project added to Cookbook
 
 
 
