@@ -15,6 +15,7 @@ Click on any of the 33 links in the web page below to view the sample PNG files:
 * First 12 files are in the beautiful (but as yet unusable BGR) format. Remaining files are standard RGB heightmaps
 * Credits and attributions are available at: <http://aceit.us/terrain-srtm30-plus/>
 
+[HGT to PNG Source Code](http://jaanga.github.io/terrain-plus/cookbook/hgt-to-png/)
 
 ## Concept
 
@@ -29,7 +30,7 @@ Make it fast and easy to access 3D elevation data over the Web
 * Built with Node.js  
 * Reads a directory of SRTM files, translates them to PNGs and writes them to disk  
 * Only 62 lines of code
-* Translates a 56 MB file to ~30 MB PNG in under 20 seconds
+* Translates a 56 MB file to ~30 MB PNG in under 10 seconds
 
 
 ## Road Map
@@ -55,6 +56,10 @@ This repository contains files that are  at an early and volatile stage. Not all
 
 
 ### Change Log
+
+2014-04-05 ~ Theo
+
+* R2 much faster thanks to Geoff
 
 2014-04-03 ~ Theo
 
