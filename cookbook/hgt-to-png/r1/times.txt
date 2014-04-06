@@ -1,0 +1,37 @@
+
+2014-04-05
+R1 
+start
+log 0 e020n40.Bathymetry.srtm file time: 24752 app time: 24752
+log 1 e020n90.Bathymetry.srtm file time: 29076 app time: 53843
+log 2 e020s10.Bathymetry.srtm file time: 30100 app time: 83943
+log 3 e060n40.Bathymetry.srtm file time: 31881 app time: 115824
+log 4 e060n90.Bathymetry.srtm file time: 29602 app time: 145426
+log 5 e060s10.Bathymetry.srtm file time: 33704 app time: 179130
+log 6 e060s60.Bathymetry.srtm file time: 30154 app time: 209284
+log 7 e100n40.Bathymetry.srtm file time: 29472 app time: 238756
+log 8 e100n90.Bathymetry.srtm file time: 30053 app time: 268825
+log 9 e100s10.Bathymetry.srtm file time: 30326 app time: 299151
+log 10 e120s60.Bathymetry.srtm file time: 27504 app time: 326655
+log 11 e140n40.Bathymetry.srtm file time: 29958 app time: 356613
+log 12 e140n90.Bathymetry.srtm file time: 30029 app time: 386642
+log 13 e140s10.Bathymetry.srtm file time: 31254 app time: 417896
+log 14 w000s60.Bathymetry.srtm file time: 27120 app time: 445016
+log 15 w020n40.Bathymetry.srtm file time: 28761 app time: 473777
+log 16 w020n90.Bathymetry.srtm file time: 31045 app time: 504822
+log 17 w020s10.Bathymetry.srtm file time: 34671 app time: 539493
+log 18 w060n40.Bathymetry.srtm file time: 31680 app time: 571188
+log 19 w060n90.Bathymetry.srtm file time: 30287 app time: 601475
+log 20 w060s10.Bathymetry.srtm file time: 30639 app time: 632114
+log 21 w060s60.Bathymetry.srtm file time: 30101 app time: 662215
+log 22 w100n40.Bathymetry.srtm file time: 33337 app time: 695552
+log 23 w100n90.Bathymetry.srtm file time: 29030 app time: 724582
+log 24 w100s10.Bathymetry.srtm file time: 29573 app time: 754155
+log 25 w120s60.Bathymetry.srtm file time: 26753 app time: 780908
+log 26 w140n40.Bathymetry.srtm file time: 28713 app time: 809621
+log 27 w140n90.Bathymetry.srtm file time: 29499 app time: 839120
+log 28 w140s10.Bathymetry.srtm file time: 30706 app time: 869826
+log 29 w180n40.Bathymetry.srtm file time: 29863 app time: 899689
+log 30 w180n90.Bathymetry.srtm file time: 29552 app time: 929241
+log 31 w180s10.Bathymetry.srtm file time: 29673 app time: 958914
+log 32 w180s60.Bathymetry.srtm file time: 26977 app time: 985891

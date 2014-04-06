@@ -43,14 +43,13 @@ console.log( 'start' );
 
 		.on( 'parsed', function() {
 			var thisData = this.data, len = thisData.length;
-			var elevation, elevationHex;
+			var elevation;
 			var index = 0;
 			for ( i = 0; i < len; i++ ) {
-				elevation = byteArray[ index++ ] * 256 + byteArray[ index++ ];
-				elevationHex = elevation.toString( 16 ).slice( -6 );
-				thisData[ i++ ] = parseInt( elevationHex.substr( 4, 2 ), 16 );
-				thisData[ i++ ] = parseInt( elevationHex.substr( 2, 2 ), 16 );
-				thisData[ i++ ] = parseInt( elevationHex.substr( 0, 2 ), 16 );
+				elevation = ( (byteArray[ index++ ] << 8) + byteArray[ index++ ] );
+				thisData[ i++ ] = (( elevation & 0xff0000 ) >> 16 );
+				thisData[ i++ ] = (( elevation & 0x00ff00 ) >> 8 );
+				thisData[ i++ ] = elevation & 0x0000ff;
 				thisData[ i ] = 255;
 			}
 

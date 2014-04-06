@@ -33,6 +33,16 @@
 		updateTitle( title );
 		addCSS();
 
+		var mapTextLat = document.body.appendChild( document.createElement( 'div' ) );
+		mapTextLat.style.cssText = 'border: 0px solid black; position: absolute; ';
+		mapTextLat.style.cssText += 'left: ' + ( ( 1 + tileXCount ) * 23 ) + 'px; line-height: 23px; top: 0;';
+		mapTextLat.innerHTML = '';
+
+		var mapTextLon = document.body.appendChild( document.createElement( 'div' ) );
+		mapTextLon.style.cssText = 'border: 0px solid black; position: absolute; ';
+		mapTextLon.style.cssText += 'left: 10px; line-height: 23px; top: 1150px;';
+		mapTextLon.innerHTML = '';
+
 		var i = 0, currentLon = -180;
 		var j, currentLat;
 		while ( currentLon < lonFinish ) {
@@ -44,19 +54,28 @@
 				map.height = 20;
 				map.style.cssText = 'border: 1px solid black; position: absolute; ';
 				map.style.cssText += 'left: ' + ( i * 23 ) + 'px; top: ' + (j * 23 ) + 'px;';
-				map.src = 'http://mt.google.com/vt/hl=en&src=app&x=' + i + '&y=' + j + '&z=' + 7;
+				if ( currentLat < 72 && currentLat > 53 )
+					map.src = 'http://mt.google.com/vt/hl=en&src=app&x=' + i + '&y=' + j + '&z=' + 7;
 				currentLat = tile2lat( j, 7 );
 
-				if ( currentLat > latFinish ) {
-					var txt = document.body.appendChild( document.createElement( 'div' ) );
-					txt.style.cssText = 'border: 1px solid black; position: absolute; ';
-					txt.style.cssText += 'left: ' + ( 20 + ( 1 + tileXCount ) * 23 ) + 'px; top: ' + ( j * 23 ) + 'px;';
-					txt.innerHTML = 'lat:' + tile2lat( j , 7).toFixed(3);
+				if ( i === 0 ) {
+					mapTextLat.innerHTML += 'lat:' + tile2lat( j , 7).toFixed(3) + b;
 				}
+
 				j++;
 			}
+			mapTextLon.innerHTML += i + ' lon: ' + currentLon + b;
 			currentLon = tile2lon( i++, 7 );
 		} 
+
+		var tileTextLat = document.body.appendChild( document.createElement( 'div' ) );
+		tileTextLat.style.cssText = 'border: 0px solid black; position: absolute; ';
+		tileTextLat.style.cssText += 'left: ' + (600 + ( 1 + tileXCount ) * 23 ) + 'px; line-height: 23px; top: 0;';
+		tileTextLat.innerHTML = '';
+
+		var tileTextLon = document.body.appendChild( document.createElement( 'div' ) );
+		tileTextLon.style.cssText = 'position: absolute; left: 600px; top: 830px; ';
+		tileTextLon.innerHTML = '';
 
 		var canvas = document.body.appendChild( document.createElement( 'canvas' ) );
 		canvas.width = 480;
@@ -74,19 +93,25 @@
 console.log( image.width, image.height, canvas.width, canvas.height );
 			context.scale( 0.1, 0.1 );
 			context.drawImage( image, 0, 0 );
-			
+
+			var currentLon = -180;
+			var currentLat = 90;
 			for (var i = 0; i < tileXCount; i++) {
 				for (var j = 0; j < tileYCount; j++) {
 					var tile = document.body.appendChild( document.createElement( 'canvas' ) );
 					tile.width = 20;
 					tile.height = 20;
-					tile.style.cssText = 'outline: 1px solid black; position: absolute; ';
-					tile.style.cssText += 'left: ' + ( 600 + i * 23) + 'px; top: ' + ( j * 23 ) + 'px;';
+					tile.style.cssText = 'outline: 1px solid black; position: absolute; ' +
+						'left: ' + ( 600 + i * 23) + 'px; top: ' + ( j * 23 ) + 'px;';
 					var contextTile = tile.getContext( '2d' );
 					//contextTile.scale( 0.1, 0.1 );
 					contextTile.drawImage( image, i * 338, j * 169, 338, 169, 0, 0, 20, 20 );
+
+					if ( i === 0 ) {
+						tileTextLat.innerHTML += j + ' lat:' + ( j * 120 ) + b;
+					}
 				}
-				p = document.body.appendChild( document.createElement( 'p' ) );
+				tileTextLon.innerHTML += i + ' lon px:' + (i * 120 ) + b;
 			} 
 		};
 
@@ -98,7 +123,6 @@ console.log( image.width, image.height, canvas.width, canvas.height );
 			'lonDeltaLevel7: ' + lonDeltaLevel7 + ' latDeltaLevel7: ' + latDeltaLevel7 + b +
 			'pixelsX: ' + pixelsX + ' pixelsY: ' + pixelsY + b +
 			'tileXCount: ' + tileXCount + ' tileYCount: ' + tileYCount + b;
-
 	}
 
 	function updateTitle( titl ) {
