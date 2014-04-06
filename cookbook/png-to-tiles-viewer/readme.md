@@ -40,6 +40,14 @@ This repository contains files that are  at an early and volatile stage. Not all
 
 ### Change Log
 
+2014-04-04 ~ Theo
+
+* Three 'panels'
+* left panels shows level 7 tiles as they should lool
+* Right two panels show PNG file to be sloced and diced
+* Riht panes still broken
+
+
 2014-04-03 ~ Theo
 
 * Project added to Cookbook

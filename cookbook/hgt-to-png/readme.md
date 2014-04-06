@@ -3,13 +3,17 @@ HGT to PNG Utility Read Me
 
 ### Sample Files
 
-Click any of the 33 files vere to view:
+Many thanks to the The Satellite Geodesy research group at Scripps Institution of Oceanography, University of California San Diego 
+for preparing and maintaining this data.
+
+Click on any of the 33 links in the web page below to view the sample PNG files:
 
 <http://aceit.us/terrain-srtm30-plus/png/>
 
-* Rather than clogging up GitHub, the sample filee are on an external server
+* Rather than clogging up GitHub, the sample files are on an external server
 * All 33 Scripps Institute files translated into PNG files
-* First 12 files are in the beautiful (but as yet unsuable BGR) format. Remaining files are standars RGB heightmaps
+* First 12 files are in the beautiful (but as yet unusable BGR) format. Remaining files are standard RGB heightmaps
+* Credits and attributions are available at: <http://aceit.us/terrain-srtm30-plus/>
 
 
 ## Concept

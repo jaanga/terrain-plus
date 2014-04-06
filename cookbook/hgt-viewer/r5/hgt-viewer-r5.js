@@ -71,9 +71,8 @@ var container;
 
 		if ( inpPretty.checked === true ) {
 			for ( i = 0; i < len; i++ ) {
-				// elevation = elevations[ index++ ]; 
 				elevation = byteArray[ index++ ] * 256 + byteArray[ index++ ];
-				elevationHex = elevation.toString( 16 ).slice( -6 );
+				elevationHex = ( elevation + 0xffffff + 1 ).toString( 16 ).slice( -6 );
 				imageDataData[ i++ ] = parseInt( sin( frequency1 * elevation + phase1 ) * amplitude + center, 10 );
 				imageDataData[ i++ ] = parseInt( sin( frequency2 * elevation + phase2 ) * amplitude + center, 10 );
 				imageDataData[ i++ ] = parseInt( sin( frequency3 * elevation + phase3 ) * amplitude + center, 10 );
@@ -81,34 +80,57 @@ var container;
 			}
 		} else if ( inpPrettyMistake.checked === true ) {
 			for ( i = 0; i < len; i++ ) {
-				elevation = byteArray[ index++ ] * 256 + byteArray[ index++ ];
-				elevationHex = elevation.toString( 16 ).slice( -6 );
-				imageDataData[ i++ ] = parseInt( elevationHex.substr( 0, 2 ), 16 );
-				imageDataData[ i++ ] = parseInt( elevationHex.substr( 2, 2 ), 16 );
+				elevation = ( byteArray[ index++ ] * 256 + byteArray[ index++ ] ).toString( 16 );
+				elevationHex = ('000000' + elevation).slice( -6 );
 				imageDataData[ i++ ] = parseInt( elevationHex.substr( 4, 2 ), 16 );
+				imageDataData[ i++ ] = parseInt( elevationHex.substr( 2, 2 ), 16 );
+				imageDataData[ i++ ] = parseInt( elevationHex.substr( 0, 2 ), 16 );
 				imageDataData[ i ] = 255;
 			}
 		} else {
 			for ( i = 0; i < len; i++ ) {
-				elevation = byteArray[ index++ ] * 256 + byteArray[ index++ ];
-				elevationHex = elevation.toString( 16 ).slice( -6 );
-				imageDataData[ i++ ] = parseInt( elevationHex.substr( 4, 2 ), 16 );
-				imageDataData[ i++ ] = parseInt( elevationHex.substr( 2, 2 ), 16 );
+				elevation = ( byteArray[ index++ ] * 256 + byteArray[ index++ ] ).toString( 16 );
+				elevationHex = ('000000' + elevation).slice( -6 );
 				imageDataData[ i++ ] = parseInt( elevationHex.substr( 0, 2 ), 16 );
+				imageDataData[ i++ ] = parseInt( elevationHex.substr( 2, 2 ), 16 );
+				imageDataData[ i++ ] = parseInt( elevationHex.substr( 4, 2 ), 16 );
 				imageDataData[ i ] = 255;
 			}
 		}
 
 		context.putImageData( imageData, 0, 0 );
 
+console.log( 'Load time in ms: ', new Date() - startTime );
+
 		elevations = [];
 		len = byteArray.length;
 		index = 0;
-		for ( var i = 0; i < len; ) {
+		for ( i = 0; i < len; ) {
 			elevations.push( byteArray[ i++ ] * 256 + byteArray[ i++ ] );
 		}
+	}
 
-console.log( 'Load time in ms: ', new Date() - startTime );
+	function onMMove( e ) {
+		if ( !elevations ) return;
+
+		var x = e.offsetX;
+		var y = e.offsetY;
+		var p = context.getImageData( x, y, 1, 1).data;
+		var hex;
+		if ( inpPretty.checked === false ) { 
+			hex = rgbToHex( p[0], p[1], p[2] ).toUpperCase();
+		} else {
+			hex = 0;
+		}
+		var indexXY = canvas.width * y + x;
+		var indexHex = parseInt( '0x'  + hex, 16);
+
+		msg.innerHTML =  
+			'x:' + x + ' y:' + y + '<br>rgb:' + p[0] + ' ' +  p[1] + ' ' + p[2]  + '<br>' +
+			'hex: #' + hex + '<br>' +
+			'index HGT: ' + indexXY + '<br>' +
+			'elevation HGT:' + elevations[ indexXY ] + ' htMap:' + indexHex;
+		swatch.style.backgroundColor = '#' + hex;
 	}
 
 	function checkData() {
@@ -129,27 +151,6 @@ console.log( 'Load time in ms: ', new Date() - startTime );
 		msg.innerHTML = len + ' items read<br>Exceptions: ' + exceptions + '<br>' +
 			'Minimum elevation: ' + min + '<br>' +
 			'Maximum elevation: ' + max + '<br>';
-	}
-
-	function onMMove( e ) {
-		if ( !elevations ) return;
-
-		var x = e.offsetX;
-		var y = e.offsetY;
-		var p = context.getImageData( x, y, 1, 1).data;
-		if ( inpPretty.checked === false ) { 
-			var hex = rgbToHex( p[0], p[1], p[2] ).toUpperCase();
-		} else {
-			var hex = 0;
-		}
-		var indexXY = canvas.width * y + x;
-		var indexHex = parseInt( '0x'  + hex, 16);
-
-		msg.innerHTML =  
-			'x:' + x + ' y:' + y + '<br>rgb:' + p[0] + ' ' +  p[1] + ' ' + p[2]  + '<br>hex: #' + hex + '<br>' +
-			'indexXY: ' + indexXY + ' indexHex: ' + indexHex + '<br>' +
-			'elevation: Array:' + elevations[ indexXY ] + ' Hex2Dec:' + indexHex;
-		swatch.style.backgroundColor = '#' + hex;
 	}
 
 	function rgbToHex(r, g, b) {
@@ -175,7 +176,7 @@ console.log( 'Load time in ms: ', new Date() - startTime );
 	function addMenu() {
 		var menu = document.body.appendChild( document.createElement( 'div' ) );
 		menu.id = 'movable';
-		menu.style.cssText = ' background-color: #ccc; left: 10px; opacity: 0.8; top: 10px; width: 330px; ';
+		menu.style.cssText = ' background-color: #ccc; left: 10px; opacity: 0.8; top: 10px; width: 350px; ';
 		menu.addEventListener( 'mousedown', mouseMove, false );
 		menu.innerHTML = '<div onclick=menu.style.display="none"; >[x]</div>' +
 			'<h1>' +
@@ -205,7 +206,7 @@ console.log( 'Load time in ms: ', new Date() - startTime );
 		for (var option, i = 0; i < files.length; i++) {
 			option = document.createElement( 'option' );
 			fileName = files[i].substr( files[i].lastIndexOf('/') + 1);
-			option.innerText = fileName
+			option.innerText = fileName;
 			selHGT.appendChild( option );
 			selectedIndex = ( fileName === fileSelected && files[i].substr( 0, 4 ) === 'ferr') ? i : selectedIndex ;
 		}

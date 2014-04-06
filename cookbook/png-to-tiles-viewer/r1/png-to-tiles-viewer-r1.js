@@ -96,6 +96,7 @@ console.log( image.width, image.height, canvas.width, canvas.height );
 
 			var currentLon = -180;
 			var currentLat = 90;
+
 			for (var i = 0; i < tileXCount; i++) {
 				for (var j = 0; j < tileYCount; j++) {
 					var tile = document.body.appendChild( document.createElement( 'canvas' ) );
@@ -112,6 +113,7 @@ console.log( image.width, image.height, canvas.width, canvas.height );
 					}
 				}
 				tileTextLon.innerHTML += i + ' lon px:' + (i * 120 ) + b;
+
 			} 
 		};
 
