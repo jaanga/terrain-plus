@@ -15,7 +15,9 @@ Click on any of the 33 links in the web page below to view the sample PNG files:
 * First 12 files are in the beautiful (but as yet unusable BGR) format. Remaining files are standard RGB heightmaps
 * Credits and attributions are available at: <http://aceit.us/terrain-srtm30-plus/>
 
-[HGT to PNG Source Code](http://jaanga.github.io/terrain-plus/cookbook/hgt-to-png/)
+[HGT to PNG Source Code](https://github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/hgt-to-png/)  
+
+* R2 is current
 
 ## Concept
 
