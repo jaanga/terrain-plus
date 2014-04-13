@@ -8,7 +8,7 @@ PNG to Tiles Viewer Read Me
 ## Concept
 
 ### Mission
-Provide a fast simple utility that translates Large PHN heightmaps to TMS Zoom Level 7 tiles
+Provide a fast simple utility that translates Large PNG heightmaps to TMS Zoom Level 7 tiles
 
 ### Vision
 
@@ -22,8 +22,12 @@ Provide a fast simple utility that translates Large PHN heightmaps to TMS Zoom L
 
 ## Issues /Bugs
 
+## Credits
+Source of original data:  
+<http://topex.ucsd.edu/WWW_html/srtm30_plus.html>
 
 ## Project Links
+
 
 You have two ways of viewing the Jaanga files:
 
@@ -39,6 +43,11 @@ This repository contains files that are  at an early and volatile stage. Not all
 
 
 ### Change Log
+
+2014-04-11 ~ Theo
+
+* Fairly much 'done'
+* Needs a bit of clean-up, but good tto go for being the model for a Node.js app
 
 2014-04-04 ~ Theo
 

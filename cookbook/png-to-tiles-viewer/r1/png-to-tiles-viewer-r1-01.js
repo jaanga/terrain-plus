@@ -2,100 +2,77 @@
 	var title = document.title;
 
 
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e020s10.Bathymetry.png';  // east Africa
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e060n40.Bathymetry.png';  // India
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e060n90.Bathymetry.png';  // Siberia
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e060s10.Bathymetry.png';  // Indian Ocean
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e020s10.Bathymetry.png';
+//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e060n40.Bathymetry.png';
+//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e060n90.Bathymetry.png';
+//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e060s10.Bathymetry.png';
 //	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e060s60.Bathymetry.png';  // antarctic
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e100n40.Bathymetry.png';  // China
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e100n90.Bathymetry.png';  // west Sibera / Japan
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e100s10.Bathymetry.png';  // Siberia
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e120s60.Bathymetry.png';  // Antarctic
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e140n40.Bathymetry.png';  // Japan
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e140n90.Bathymetry.png';  // East Siberia
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e140s10.Bathymetry.png';  // New Zealand xxx
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w000s60.Bathymetry.png';  // Antartica
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w020n40.Bathymetry.png';  // west Africa
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w020n90.Bathymetry.png';  // Spitzbergen
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w020s10.Bathymetry.png';  // west South Africa
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w060n40.Bathymetry.png';  // Brazil
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w060n90.Bathymetry.png';  // Greeanland
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w060s10.Bathymetry.png';  // South Africa
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w060s60.Bathymetry.png';  // Antarctica
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w100n40.Bathymetry.png';  // Caribbean
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w100n90.Bathymetry.png';  // Baffin Island
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w100s10.Bathymetry.png';  // Chile / Argentina
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w120s60.Bathymetry.png';  // Antarctica
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w140n40.Bathymetry.png';  // San Francisco
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w140n90.Bathymetry.png';  // West Canada
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w140s10.Bathymetry.png';  // Ocean
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w180n40.Bathymetry.png';  // Hawaii
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w180n90.Bathymetry.png';  // Alaska
-	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w180s10.Bathymetry.png';  // Ocean
-//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w180s60.Bathymetry.png';  // Antarctica
+//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e100n40.Bathymetry.png';
+//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e100n90.Bathymetry.png';
+//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e100s10.Bathymetry.png';
+//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e120s60.Bathymetry.png';  // antarctic
+var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e140n40.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e140n90.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e140s10.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w000s60.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w020n40.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w020n90.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w020s10.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w060n40.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w060n90.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w060s10.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w060s60.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w100n40.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w100n90.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w100s10.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w120s60.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w140n40.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w140n90.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w140s10.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w180n40.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w180n90.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w180s10.Bathymetry.png';
+// var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w180s60.Bathymetry.png';
 
 	var fileName = fileLink.substr( fileLink.lastIndexOf('/') + 1 );
 console.log( fileName );
+
+//	var fileName = 'e020n40.Bathymetry.png';
 
 	var pi = Math.PI, pi05 = pi * 0.5, pi2 = pi + pi;
 	var d2r = pi / 180, r2d = 180 / pi;  // degress / radians;
 	var zoomLevel = 7;
 
-	var signLon = ( fileName.substr( 0, 1 ) === 'w' ) ? -1 : 1;
+	var latDelta = 50;
+	var lonDelta = 40;
+
+	var signLon = ( fileName.substr( 0, 1 ) === 'w' ) ? -1 : 01;
 	var signLat = ( fileName.substr( 4, 1 ) === 's' ) ? -1 : 1;
 
 	var lonStart = signLon * parseInt( fileName.substr( 1, 3 ), 10 );
 	var latStart = signLat * parseInt( fileName.substr( 5, 2 ), 10 );
+	var offset = 0;
 
-	if ( latStart === -60) {
-		var latDelta = 30;
-		var lonDelta = 60;
-	} else {
-		var latDelta = 50;
-		var lonDelta = 40;
-	}
+
 	var lonFinish = lonStart + lonDelta;
-	lonFinish = lonFinish > 179 ? 179 : lonFinish;
+	var latFinish = latStart - latDelta;
 
-	var tileStartX = lon2tile( lonStart, zoomLevel );
-	var tileFinishX = lon2tile( lonFinish, zoomLevel ) + 1;
+	var tileStartX = lon2tile( lonStart, zoomLevel )
+	var tileStartY = lat2tile( latStart, zoomLevel );
 
 	var tileStartLon = tile2lon(  tileStartX, zoomLevel );
-	var lonDeltaLevel7 = 360 / 128;
-	var offsetX = -337.5 * (tileStartLon - lonStart) / lonDeltaLevel7;
-
-	var latFinish, tileStartY;
-	if ( latStart === 90 ) {
-		latStart =  tile2lat( 0, zoomLevel );
-		latFinish = latStart - latDelta;
-		tileStartY = 0;
-
-	} else if ( latStart === -60) {
-		latFinish = tile2lat( 128, 0 );
-		tileStartY = lat2tile( latStart, zoomLevel );
-
-	} else {
-		latFinish = latStart - latDelta;
-		tileStartY = lat2tile( latStart, zoomLevel );
-	}
-
 	var tileStartLat = tile2lat(  tileStartY, zoomLevel );
-	var offsetY;
 
-	if ( latStart === tile2lat( 0, zoomLevel ) ) {
-		offsetY = (90 - latStart ) * 4800 / 40; 
-	} else if ( latStart === 40 || latStart === -10 || latStart === -60 ) {
-		offsetY = -120 * ( tileStartLat - latStart);
-console.log( 'offsetY', offsetY );
-	}
-
-console.log( lonStart, lonFinish, latStart, latFinish );
-
-	if ( latStart === -60 ) {
-		var tileFinishY = 127;
+	if ( latStart > tile2lat( 0, zoomLevel ) ) {
+		latStart =  tile2lat( 0, zoomLevel );
+		offset = (90 - tileStartLat ) * 4800 / 40; 
 	} else {
-		var tileFinishY = lat2tile( latFinish, zoomLevel ) + 1;
+
+
 	}
+
+	var tileFinishX = lon2tile( lonFinish, zoomLevel ) + 1;
+	var tileFinishY = lat2tile( latFinish, zoomLevel ) + 1;
 
 	var tileDeltaLon = - tileStartLon + tile2lon(  tileStartX + 1, zoomLevel );
 	var tileDeltaLat = tileStartLat - tile2lat(  tileStartY + 1, zoomLevel );
@@ -103,15 +80,26 @@ console.log( lonStart, lonFinish, latStart, latFinish );
 	var tileDeltaX = tileFinishX - tileStartX;
 	var tileDeltaY = tileFinishY - tileStartY;
 
-console.log( tileStartY, tileFinishY);
+
+	var anchorageLat = +61.2167
+	var anchorageLon = -149.9000;
+
+	var anchorageTileX = lon2tile( anchorageLon, 7 );
+	var anchorageTileY = lat2tile( anchorageLat, 7 );
+
 
 	var latDeltaLevel7 = 180 / 128;
+	var lonDeltaLevel7 = 360 / 128;
+
+
 
 	var pixelsX = Math.floor( lonDeltaLevel7 * 120);
 	var pixelsY = Math.floor(latDeltaLevel7 * 120);
 
 	var tileXCount = Math.floor( lonDelta / lonDeltaLevel7 ) + 1;
 	var tileYCount = Math.floor( latDelta / latDeltaLevel7 ) + 1;
+
+
 
 	var b = '<br>';
 
@@ -130,32 +118,65 @@ console.log( tileStartY, tileFinishY);
 		mapTextLon.style.cssText = 'left: 10px; position: absolute; top: ' + ( tileDeltaY * 23 + 50 ) + 'px;';
 		mapTextLon.innerHTML = '';
 
-		var currentTileY;
+	var currentTileX;
+	var currentTileY;
 		var i = 0, currentTileX = tileStartX;
-		var j, currentLatTop, deltaLat, currentPixelY;
 
-		while ( currentTileX <= tileFinishX ) {
+		var j, currentLatTop, deltaLat, currentPixelY;
+		while ( currentTileX < tileFinishX ) {
 			currentTileY = tileStartY;
 			j = 0;
-			while ( currentTileY <= tileFinishY ) {
+			while ( currentTileY < tileFinishY ) {
 				var map = document.body.appendChild( document.createElement( 'img' ) );
 				map.width = 20;
 				map.height = 20;
 				map.style.cssText = 'border: 1px solid black; position: absolute; ';
 				map.style.cssText += 'left: ' + ( i * 23 ) + 'px; top: ' + ( j * 23 ) + 'px;';
-				if ( j > -1 && j < 75 ) {
-					map.src = 'http://mt.google.com/vt/hl=en&src=app&x=' + currentTileX + '&y=' + currentTileY + '&z=' + zoomLevel;
-				}
+// 				if ( j > 5 && j < 15 )
+//					map.src = 'http://mt.google.com/vt/hl=en&src=app&x=' + currentTileX + '&y=' + currentTileY + '&z=' + zoomLevel;
 				if ( i === 0 ) {
-					mapTextLat.innerHTML += j + ' tilyY:' + currentTileY + ' lat:' + tile2lat( currentTileY , 7).toFixed(3) + b;
+					mapTextLat.innerHTML += j + ' lat:' + tile2lat( j , 7).toFixed(3) + b;
 				}
+
 				currentTileY++;
 				j++;
 			}
-			mapTextLon.innerHTML += i + ' tileX:' + currentTileX + ' lon: ' + tile2lon( currentTileX, zoomLevel ) + b;
+			mapTextLon.innerHTML += currentTileX + ' lon px:' + currentTileX + b;
 			currentTileX++;
 			i++;
 		} 
+
+/*
+		var i = 0, currentLon = lonStart;
+		var j, currentLat;
+		while ( currentLon < lonFinish ) {
+			j = 0;
+			currentLat = latStart;
+			while ( currentLat > latFinish ) {
+				var map = document.body.appendChild( document.createElement( 'img' ) );
+				map.width = 20;
+				map.height = 20;
+				map.style.cssText = 'border: 1px solid black; position: absolute; ';
+				map.style.cssText += 'left: ' + ( i * 23 ) + 'px; top: ' + (j * 23 ) + 'px;';
+				if ( currentLat < 73 && currentLat > 53 )
+					map.src = 'http://mt.google.com/vt/hl=en&src=app&x=' + i + '&y=' + j + '&z=' + 7;
+				currentLat = tile2lat( j, 7 );
+
+				if ( i === 0 ) {
+					mapTextLat.innerHTML += j + ' lat:' + tile2lat( j , 7).toFixed(3) + b;
+				}
+
+				j++;
+			}
+			mapTextLon.innerHTML += i + ' lon: ' + currentLon + b;
+			i++;
+			currentLon = tile2lon( i, 7 );
+
+		} 
+*/
+
+
+
 
 		var tileTextLat = document.body.appendChild( document.createElement( 'div' ) );
 		tileTextLat.style.cssText = 'border: 0px solid black; position: absolute; ';
@@ -168,34 +189,28 @@ console.log( tileStartY, tileFinishY);
 
 
 		var canvas = document.body.appendChild( document.createElement( 'canvas' ) );
-
-		if ( latStart === -60) {
-			canvas.width = 720;
-			canvas.height = 360;
-
-		} else {
-			canvas.width = 480;
-			canvas.height = 600;
-		}
+		canvas.width = 480;
+		canvas.height = 600;
 		canvas.style.cssText = 'border: 1px solid black; position: absolute; right: 0; ';
 		var context = canvas.getContext( '2d' );
 
 		var image = document.createElement( 'img' );
+//		image.src = '../../../../terrain-srtm30-plus/png/' + fileName;
 		image.src = fileLink;
 		image.onload = function(){
 
+// console.log( image.width, image.height, canvas.width, canvas.height );
 			context.scale( 0.1, 0.1 );
 			context.drawImage( image, 0, 0 );
 
+// 			var offset = (90 - tileStartLat ) * 4800 / 40; 
 			var currentTileX = tileStartX;
 
 			i = 0;
-			while ( currentTileX <= tileFinishX ) {
+			while ( currentTileX < tileFinishX ) {
 				//for (var j = 0; j < tileYCount; j++) {
-
 				currentTileY = tileStartY;
-				currentPixelX = -offsetX + i * ( pixelsX - 1 );
-				currentPixelY = offsetY;
+				currentPixelY = offset;
 				j = 0;
 				while ( currentTileY <= tileFinishY ) {
 
@@ -210,8 +225,8 @@ console.log( tileStartY, tileFinishY);
 					currentLatBottom = tile2lat( currentTileY + 1, zoomLevel );
 					deltaLat = currentLatTop - currentLatBottom;
 					deltaPixel = 120 * deltaLat;
-					
-					contextTile.drawImage( image, currentPixelX, currentPixelY, pixelsX, deltaPixel, 0, 0, 20, 20 );
+
+					contextTile.drawImage( image, i * ( pixelsX - 1 ), currentPixelY, pixelsX, deltaPixel, 0, 0, 20, 20 );
 					currentPixelY += deltaPixel;
 
 					if ( i === 0 ) {
@@ -220,11 +235,9 @@ console.log( tileStartY, tileFinishY);
 					currentTileY++;
 					j++;
 				}
-				//tileTextLon.innerHTML += currentTileX + ' lon px:' + ( currentTileX * ( pixelsX - 1 ) ) + b;
-				tileTextLon.innerHTML += i + ' tileX:' + currentTileX + ' lon: ' + tile2lon( currentTileX, zoomLevel ) + 
-					' pixelX:' + currentPixelX + b;
+				tileTextLon.innerHTML += currentTileX + ' lon px:' + ( currentTileX * ( pixelsX - 1 ) ) + b;
 				currentTileX++;
-				i++;
+				i++
 			} 
 		};
 
@@ -234,24 +247,21 @@ console.log( tileStartY, tileFinishY);
 			'<div id=msg ></div>';
 
 		msg.innerHTML = 
-			'fileName: ' + fileName + b +
-			b +
-
 			'tileStartX:' + tileStartX + b +
-			'tileFinishX:' + tileFinishX + b +
-			'tileDeltaX:' + tileDeltaX + b +
-			b +
-
 			'tileStartY:' + tileStartY + b +
+
+			'tileFinishX:' + tileFinishX + b +
 			'tileFinishY:' + tileFinishY + b +
-			'tileDeltaY:' + tileDeltaY + b +
+
 			b +
-
 			'tileStartLon:' + tileStartLon + b +
-			'tileDeltaLon:' + tileDeltaLon + b +
-
 			'tileStartLat:' + tileStartLat + b +
+			'tileDeltaLon:' + tileDeltaLon + b +
 			'tileDeltaLat:' + tileDeltaLat + b +
+
+			b +
+			'anchorageTileX:' + anchorageTileX + b +
+			'anchorageTileY:' + anchorageTileY + b +
 
 			b +
 			'lonDeltaLevel7: ' + lonDeltaLevel7 + ' latDeltaLevel7: ' + latDeltaLevel7 + b +
@@ -293,3 +303,4 @@ console.log( tileStartY, tileFinishY);
 	function sin( a ){ return Math.sin( a ); }
 	function pow( a, b ){ return Math.pow( a, b ); }
 	function ran(){ return Math.random(); }
+
