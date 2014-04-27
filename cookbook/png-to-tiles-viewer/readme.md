@@ -32,7 +32,7 @@ Source of original data:
 You have two ways of viewing the Jaanga files:
 
 * Web page hosted on GitHub: [jaanga.github.io]( http://jaanga.github.io/terrain-plus/cookbook/png-to-tiles-viewer/ "view the files as apps." ) <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
-* Source code on GitHub: [github.com/jaanga]( https://github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/hgt-to-png/ "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
+* Source code on GitHub: [github.com/jaanga]( https://github.com/jaanga/terrain-plus/tree/gh-pages/cookbook/png-to-tiles-viewer/ "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
 
 
 ### Copyright and License

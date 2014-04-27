@@ -1,7 +1,8 @@
 	var info;
 	var title = document.title;
 
-
+	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e020n40.Bathymetry.png';  // Saudi Arabia
+//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e020n90.Bathymetry.png';  // Russia
 //	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e020s10.Bathymetry.png';  // east Africa
 //	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e060n40.Bathymetry.png';  // India
 //	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/e060n90.Bathymetry.png';  // Siberia
@@ -31,7 +32,7 @@
 //	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w140s10.Bathymetry.png';  // Ocean
 //	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w180n40.Bathymetry.png';  // Hawaii
 //	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w180n90.Bathymetry.png';  // Alaska
-	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w180s10.Bathymetry.png';  // Ocean
+//	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w180s10.Bathymetry.png';  // Ocean
 //	var fileLink = 'http://aceit.us/terrain-srtm30-plus/png/w180s60.Bathymetry.png';  // Antarctica
 
 	var fileName = fileLink.substr( fileLink.lastIndexOf('/') + 1 );

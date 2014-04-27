@@ -190,7 +190,7 @@ console.log( 'Load time in ms: ', new Date() - startTime );
 		menu.innerHTML = '<div onclick=menu.style.display="none"; >[x]</div>' +
 			'<h1>' +
 				'<a href="" >' + appTitle + '</a> ' +
-				'<a href=# id=aHelp title="Get help and info" onclick=help.style.display="block"; ><large>&#x24D8;</large></a>' +
+				'<a href=# id=aHelp title="Get help and info" onclick=help.style.display="block"; >&#x24D8;</a>' +
 			'</h1>' +
 			'<p>' +
 				'Select HGT: <select id=selHGT title="Select a different view to view" ><select><br>' +
