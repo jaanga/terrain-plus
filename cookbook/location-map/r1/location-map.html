@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang=en >
+<head>
+<title>Location Map</title>
+<meta charset=utf-8 />
+</head>
+<body>
+<script>
+
+	var size = 720;
+	var gazetteer;
+	var half = size / 2;
+	var canvas, contex, image;
+	var d2r = Math.PI / 180;
+
+	init();
+
+	function init() {
+
+		document.body.style.cssText = ' font: bold 12pt monospace; ';
+
+		var info = document.body.appendChild( document.createElement( 'div' ) );
+		info.innerHTML = '<a href="" ><h1>' + document.title + '</h1></a>' +
+			'<p><select id=selPlace ></select></p>' +
+			'<p id=locationMap>' +
+				'Latitude: <select id=selLat onchange=updateParameters(); ></select>  ' +
+				'Longitude: <select id=selLon onchange=updateParameters(); ></select>' +
+			'</p><p>' +
+				'TileX: <select id=selTileX onchange=updateTileParameters(); ></select> ' +
+				'TileY: <select id=selTileY onchange=updateTileParameters(); ></select> ' +
+			'</p>' +
+			'<div id=msg ></div>';
+
+		addGazetteer();
+		addLocationOptions();
+		addLocationMap();
+
+	}
+
+	function addLocationMap() {
+
+		canvas = document.body.appendChild( document.createElement( 'canvas' ) );
+		canvas.width = canvas.height = size;
+		canvas.style.cssText = 'border: 1px solid red; ';
+		context = canvas.getContext( '2d' );
+
+		loadImage( '../../../samples-png/1-0-0.png', 0, 0 );
+		loadImage( '../../../samples-png/1-1-0.png', half, 0 );
+		loadImage( '../../../samples-png/1-0-1.png', 0, half );
+		loadImage( '../../../samples-png/1-1-1.png', half, half );
+
+		function loadImage( fileName, x, y ) {
+
+			var img = document.createElement( 'img' );
+	//		document.body.appendChild( img );
+			img.src = fileName;
+
+			img.onload = function(){
+
+				context.drawImage( img, 0, 0, 256, 256, x, y, half, half );
+				image = context.getImageData( 0, 0, size, size );
+
+				if ( fileName === '../../../samples-png/1-1-1.png' ) { updateParameters(); }
+
+			}
+
+		}
+
+	}
+
+	function addGazetteer() {
+
+		var data = requestFile( '../../../gazetteer/places-2000.csv' );
+		var xmlHttp;
+
+		function requestFile( fileName ) {
+
+			xmlHttp = new XMLHttpRequest();
+			xmlHttp.open( 'GET', fileName, true );
+			xmlHttp.onreadystatechange = callback;
+			xmlHttp.send( null );
+
+		}
+
+		function callback() {
+
+			if ( xmlHttp.readyState != 4  ) { return; }
+
+			var response = xmlHttp.responseText;
+
+			var lines = response.split(/\r\n|\n/);
+			gazetteer = [ ['Select a location','37.796','-122.398'] ];
+
+			for ( var i = 1; i < lines.length; i++ ) {
+
+				pl = lines[i].split( ';' );
+				gazetteer.push( [ pl[0], parseFloat( pl[1] ), parseFloat( pl[2] ) ] );
+
+				selPlace.appendChild( document.createElement( 'option' ) );
+				selPlace.children[ i - 1].text = gazetteer[ i - 1][0];
+
+			}
+
+			selPlace.onchange = function() {
+
+				startPlace = this.selectedIndex;
+				selTileY.selectedIndex = lat2tile( gazetteer[ startPlace ][1], 7 );
+				selTileX.selectedIndex = lon2tile( gazetteer[ startPlace ][2], 7 );
+				updateTileParameters();
+
+			};
+
+		}
+
+	}
+
+	function addLocationOptions() {
+
+		for ( var i = 0; i < 181; i++ ) {
+
+			selLat.appendChild( document.createElement( 'option' ) );
+			selLat.children[ i ].text = 90 - i;
+
+		}
+
+		selLat.selectedIndex = 52;
+
+		for ( var i = 0; i < 361; i++ ) {
+
+			selLon.appendChild( document.createElement( 'option' ) );
+			selLon.children[ i ].text = 180 - i;
+
+		}
+
+		selLon.selectedIndex = 303;
+
+		for ( var i = 0; i < 128; i++ ) {
+
+			selTileX.appendChild( document.createElement( 'option' ) );
+			selTileX.children[ i ].text = i;
+
+		}
+
+		selTileX.selectedIndex = 20;
+
+		for ( var i = 0; i < 128; i++ ) {
+
+			selTileY.appendChild( document.createElement( 'option' ) );
+			selTileY.children[ i ].text = i;
+
+		}
+
+		selTileY.selectedIndex = 49;
+
+	}
+
+	function updateTileParameters() {
+
+		selLat.selectedIndex = 90 - Math.floor( tile2lat( selTileY.value, 7 ) );
+		selLon.selectedIndex = 180 - Math.floor( tile2lon( selTileX.value, 7 ) );
+
+		updateParameters();
+
+	}
+
+	function updateParameters(){
+
+//		context.beginPath(); //
+//		context.clearRect( 0, 0, canvas.width, canvas.height);
+
+//		context.putImageData( image, 0, 0 );
+//		context.strokeStyle =  'red';
+
+		lat = parseFloat( selLat.value);
+//console.log( 'lat', lat );
+
+		selTileY.selectedIndex = lat2tile( lat, 7 );
+//console.log( 'tileY', selTileY.selectedIndex );
+
+		lon = parseFloat( selLon.value );
+
+		selTileX.selectedIndex = lon2tile( lon, 7 );
+//console.log( 'tileX', selTileX.selectedIndex );
+
+		updateLocationMap( lat, lon );
+
+	}
+
+/*
+
+https://developers.google.com/maps/documentation/javascript/examples/map-coordinates
+
+MercatorProjection.prototype.fromLatLngToPoint = function(latLng,
+    opt_point) {
+  var me = this;
+  var point = opt_point || new google.maps.Point(0, 0);
+  var origin = me.pixelOrigin_;
+
+  point.x = origin.x + latLng.lng() * me.pixelsPerLonDegree_;
+
+  // Truncating to 0.9999 effectively limits latitude to 89.189. This is
+  // about a third of a tile past the edge of the world tile.
+  var siny = bound(Math.sin(degreesToRadians(latLng.lat())), -0.9999,
+      0.9999);
+  point.y = origin.y + 0.5 * Math.log((1 + siny) / (1 - siny)) *
+      -me.pixelsPerLonRadian_;
+  return point;
+};
+
+*/
+
+	function updateLocationMap( lat, lon ) {
+
+		siny = Math.sin( ( d2r * lat ) );
+//console.log( 'siny', siny );
+
+		lat = half - Math.log( ( 1 + siny ) / ( 1 - siny ) ) * half * 0.15;
+// 0.1 is just a trial and error number. What should the real scale factor be and why?
+//console.log( 'lat2', lat );
+
+		context.beginPath(); //
+		context.clearRect( 0, 0, canvas.width, canvas.height);
+
+		context.putImageData( image, 0, 0 );
+		context.strokeStyle =  'red';
+
+		context.moveTo( 0, lat );
+		context.lineTo( size, lat );
+		context.stroke();
+
+		lon = size * ( ( 180 + lon ) / 360 );
+//console.log( '\n\nlon', lon );
+
+		context.moveTo( lon, 0 );
+		context.lineTo( lon, size);
+		context.stroke();
+		context.closePath();
+
+	}
+
+	function lon2tile( lon, zoom ) {
+
+		return Math.floor( ( lon + 180 ) / 360 * Math.pow( 2, zoom ) );
+
+	}
+
+	function lat2tile( lat, zoom ) {
+
+		var pi = Math.PI
+		return Math.floor(( 1 - Math.log( Math.tan( lat * pi / 180) + 1 / Math.cos( lat * pi / 180)) / pi )/2 * Math.pow(2, zoom) );
+
+	}
+
+	function tile2lon( x, zoom ) {
+
+		return ( x / Math.pow( 2, zoom ) * 360 - 180 );
+
+	}
+
+	function tile2lat( y, zoom ) {
+
+		var pi = Math.PI
+		var n = pi - 2 * pi * y / Math.pow( 2, zoom );
+		return 180 / pi * Math.atan( 0.5 * ( Math.exp( n ) - Math.exp( -n ) ));
+
+	}
+
+</script>
+</body>
+</html>

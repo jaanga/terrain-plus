@@ -1,0 +1,764 @@
+﻿<!doctype html>
+<html lang=en >
+<head>
+<title>Template PNG TMS7+ Viewer 3D R1</title>
+<meta charset=utf-8 />
+<meta name=viewport content='width=device-width,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0' />
+</head>
+<body>
+<script src=http://mrdoob.github.io/three.js/build/three.min.js ></script>
+<script src=http://mrdoob.github.io/three.js/examples/js/controls/OrbitControls.js ></script>
+<script src=http://mrdoob.github.io/three.js/examples/js/libs/stats.min.js ></script>
+<script>
+
+//	var x, y;
+
+	var selectedLocation = 'San Francisco CA';
+	var zoom = 7;
+	var tileX = 20;
+	var tileY = 49;
+
+	var srcDir = 'C:/temp/srtm-png-test/7+/';
+//	var fileName = dir + '/' + tileX + '/' + tileY + '.png';
+
+	var min; 
+	var max;
+	var scale = 8;
+
+	var size = 256;
+	var half = size / 2;
+	var d2r = Math.PI / 180;
+
+	var renderer, scene, camera, controls;
+	var mesh, geometry, material;
+	var canvas, context, image, imageLocation;
+	var canvasMap, contextMap;
+
+	var contextHeightMap, pix;
+	var grid;
+	var gazetteer;
+	var placards;
+	var mapMaterial, texture;
+
+	init();
+	animate();
+
+	function init() {
+
+		var hashes = location.hash.split('#');
+//		zoom = ( hashes[1] !== undefined ) ? hashes[1] : zoom;
+		tileX = ( hashes[1] !== undefined ) ? hashes[1] : tileX;
+		tileY = ( hashes[2] !== undefined ) ? hashes[2] : tileY;
+		scale = ( hashes[3] !== undefined ) ? hashes[3] : scale;
+
+		var css = document.head.appendChild( document.createElement('style') );
+		css.innerHTML ='body { font: 600 12pt monospace; margin: 0; /* overflow: hidden; */ }' +
+			'p {margin: 10px 0; }' +
+		'';
+
+		if ( window.self === window.top ) {
+
+			var info = document.body.appendChild( document.createElement( 'div' ) );
+			info.style.cssText = 'margin: 0 20px; position: absolute; ';
+			info.innerHTML = '<a href="" ><h1 style=margin:0; >' + document.title + '</h1></a>' +
+				'<img id=heightMap onload=initCanvas(); />' +
+				'<p>' +
+					'<input type=file id=inpFile onchange=readFile(); >' +
+				'</p><p>' +
+					'Gazetteer: <select id=selPlace ></select>' +
+				'</p><p>' +
+					'<input type=checkbox id=inpPlacards onchange=setPlacards(); checked /> Display placards' +
+				'</p><p>' +
+					'Latitude: <select id=selLat onchange=selectFile(); ></select>  ' +
+					'Longitude: <select id=selLon onchange=selectFile(); ></select>' +
+				'</p><p>' +
+					'TileX: <select id=selTileX onchange=updateTileParameters(); ></select> ' +
+					'TileY: <select id=selTileY onchange=updateTileParameters(); ></select>' +
+				'</p><p>' +
+					'Go: <button onclick=tileWest(); title="Go west" >&#8678;</button> ' +
+					'<button onclick=tileEast(); title="Go east"  >&#8680;</button> ' +
+
+					'<button onclick=tileNorth(); title="Go north" >&#8679;</button> ' +
+					'<button onclick=tileSouth(); title="Go south" >&#8681;</button> ' +
+				'</p><p>' +
+					'Map overlay: <select id=selMap onchange=setTextureMap() /></select>' +
+				'</p><p>' +
+					'Vertical scale: <input type=range id=inpScale onchange=scale=parseFloat(this.value);initCanvas(); min=1 max=20 step=0.1 value=scale /></select>' +
+				'</p><p>' +
+					'<input type=checkbox id=inpGrid onchange=setHelpers(); checked=true /> Disply grid & axis' +
+				'</p><p id=locationMap ></p>' +
+				'<div id=msg ></div>' +
+				'<div id=msg1 ></div>' +
+				'<div id=msg2 ></div>' +
+				'<div id=msg3 ></div>' +
+			'';
+
+		}
+
+		getGazetteer();
+		getLatLonOptions();
+		getLocationMap();
+
+		getTextureMaps();
+
+		stats = new Stats();
+		stats.domElement.style.cssText = 'position: absolute; right: 0; top: 0; z-index: 100; ';
+		document.body.appendChild( stats.domElement );
+
+		renderer = new THREE.WebGLRenderer( { alpha: 1, antialias: true, clearColor: 0xffffff }  );
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+
+		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 1000 );
+		camera.position.set( 0, 150, 200 );
+		controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+		scene = new THREE.Scene();
+
+// sea level
+		geometry = new THREE.PlaneBufferGeometry( 256, 256 );
+		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
+		material = new THREE.MeshNormalMaterial( { opacity: 0.7, side: 2, transparent: true } );
+		seaMesh = new THREE.Mesh( geometry, material );
+		scene.add( seaMesh );
+
+		setHelpers();
+
+		mapMaterial = new THREE.MeshNormalMaterial( { shading: THREE.SmoothShading, side: 2 } );
+
+		getHeightMapSrc( srcDir + tileX + '/' + tileY + '.png', true );
+
+	}
+
+	function setHelpers() {
+
+		if ( inpGrid.checked === true ) {
+
+			grid = new THREE.GridHelper( 128, 10 );
+			scene.add( grid );
+
+			axis = new THREE.AxisHelper( 50 );
+			scene.add( axis );
+
+		} else {
+
+			if ( grid ) { 
+				scene.remove( grid ); 
+				scene.remove( axis );
+			}
+
+		}
+
+	}
+
+
+	function getGazetteer() {
+
+		var data = requestGazetteer( '../../../gazetteer/places-2000.csv' );
+		var xmlHttp;
+
+		function requestGazetteer( fileName ) {
+
+			xmlHttp = new XMLHttpRequest();
+			xmlHttp.open( 'GET', fileName, true );
+			xmlHttp.onreadystatechange = callbackGazetteer;
+			xmlHttp.send( null );
+
+		}
+
+		function callbackGazetteer() {
+
+			if ( xmlHttp.readyState != 4  ) { return; }
+
+			var response = xmlHttp.responseText;
+
+			var lines = response.split(/\r\n|\n/);
+			gazetteer = [ ['Select a location','37.796','-122.398'] ];
+			var index = 0;
+
+			for ( var i = 1, place; i < lines.length; i++ ) {
+
+				place = lines[i].split( ';' );
+
+				if ( place[ 0 ] === selectedLocation ) { index = i; };
+
+				gazetteer.push( [ place[0], parseFloat( place[1] ), parseFloat( place[2] ) ] );
+
+				parent.selPlace.appendChild( document.createElement( 'option' ) );
+				parent.selPlace.children[ i - 1 ].text = gazetteer[ i - 1 ][ 0 ]; 
+
+			}
+
+			parent.selPlace.selectedIndex = index;
+
+			parent.selPlace.onchange = function() {
+
+				var startPlace = this.selectedIndex;
+
+				tileX = lon2tile( gazetteer[ startPlace ][2], 7 );
+				tileY = lat2tile( gazetteer[ startPlace ][1], 7 );
+
+				getHeightMapSrc(  srcDir + tileX + '/' + tileY + '.png', true );
+
+			};
+
+		}
+
+	}
+
+	function setPlacards() {
+		if ( placards && placards.children.length > 0 ) {
+			scene.remove( placards );
+			placards.children.length = 0;
+		}
+		if ( !inpPlacards.checked || !gazetteer ) return;
+
+		placards = new THREE.Object3D();
+
+var tileSize = 256;
+var tilesPerSide = 1
+/*
+		var pointStart = getPoint( lat, lon, zoom );
+		var alt, point, mesh;
+
+		var off = tilesPerSide % 2 > 0 ? -128 : -256;
+//		var off = 128;
+//		var scale = 0.2 * scaleVertical * zoomScales[ zoom ][1];
+
+		var distance = 0.0002 * camera.position.distanceTo( controls.target );
+		var scalePlacard = distance < 0.25 ? 0.25 : distance;
+*/
+
+			ulLat = tile2lat( tileY, zoom );
+			ulLon = tile2lon( tileX, zoom );
+			lrLat = tile2lat( tileY + 1, zoom );
+			lrLon = tile2lon( tileX + 1, zoom );
+
+			dx = (lrLon - ulLon);
+			dy = (ulLat - lrLat);
+
+console.log( '(ulLon - lrLon) ',(ulLon - lrLon) ,'(ulLat - lrLat)', (ulLat - lrLat)  );
+console.log( 'dx',dx,'dy',dy  );
+
+		for ( var i = 1, iLen = gazetteer.length; i < iLen; i++ ) {
+			place = gazetteer[i];
+			lat = place[1]; 
+			lon = place[2];
+
+			if ( lat < ulLat && lat > lrLat && lon > ulLon && lon < lrLon ) {
+
+				var ptX =  256 * ( lon - ulLon ) / dx  - 256 / 2;
+				var ptY = 256 * ( ulLat - lat ) / dy - 256 / 2 ;
+
+				alt = getAltitude( ptX, ptY );
+console.log( place[0], alt );
+				alt = 0.1 * scale * alt;
+
+//console.log( place, ptX, ptY, lon - ulLon,  '\nulLon - lrLon',ulLon - lrLon);
+				mesh = drawSprite( place[0] + ' ' + alt.toFixed( 0 ) , 0.1, '#0f0', ptX, 25 + alt , ptY );
+				mesh.material.opacity = 0.5;
+				placards.add( mesh );
+/*
+				point = getPoint( lat, lon, zoom );
+				point.ptX += off + tileSize * ( point.tileX - pointStart.tileX );
+				point.ptY += off + tileSize * ( point.tileY - pointStart.tileY );
+				alt = getAltitude( lat, lon );
+				point.alt = scaleVerticalCurrent * alt;
+				mesh = drawObject( point.ptX, 30 + 0.5 * point.alt, point.ptY );
+				mesh.scale.set( 5, point.alt, 5 );
+				placards.add( mesh );
+
+				mesh = drawSprite( place[0] + ' ' + point.alt , scalePlacard, '#0f0', point.ptX, 50 + point.alt , point.ptY );
+				mesh.material.opacity = 0.5;
+				placards.add( mesh );
+*/
+
+			}
+		}
+
+		scene.add( placards );
+
+	}
+
+	function getAltitude( x, y ) {
+
+		p = contextHeightMap.getImageData( x, y, 1, 1 ).data;
+
+//console.log( 'p', p, p[0] + 256 * (255 - p[1] ) );
+		p2 = p[ 1 ] > 0 ? 255 * (255 - p[1] ) : 0;
+		return p[0] + p2;
+
+//		index =  4 * Math.floor ( 256 * ( y + 128 ) + ( x + 128 ) );
+
+//console.log( x, y, '\n', index, pix[ index ], pix[ index + 1 ], pix[ index + 2] );
+
+
+	}
+
+
+
+/*
+		var point7 = uf.getPoint( lat, lon, 7);
+		var name = point7.tileX + '/' + point7.tileY;
+//if ( !uf.images[name] ) { console.log( 'bad altitude' ,  point7  ); return 0; }
+		var dim, img = uf.images[name].img;
+		canvasAlt.height = canvasAlt.width = dim = img.width;
+		contextAlt.drawImage( img, 0, 0 );
+		var xStart = dim * Math.abs( point7.ulTileLon - lon ) /  point7.deltaLon;
+		var yStart = dim * ( point7.ulTileLat - lat) /  point7.deltaLat;
+		var spot = contextAlt.getImageData( xStart, yStart, 1, 1 ).data;
+		return spot[0];
+
+
+	}
+*/
+	function drawSprite( text, scale, color, x, y, z) {
+		texture = canvasText( text, color );
+		var spriteMaterial = new THREE.SpriteMaterial( { map: texture, useScreenCoordinates: false, opacity: 1 } );
+		var sprite = new THREE.Sprite( spriteMaterial );
+		sprite.position.set( x, y, z ) ;
+		sprite.scale.set( scale * texture.image.width, scale * texture.image.height );
+		return sprite;
+	}
+
+	function drawLine( vertices, color, linewidth) {
+		function convert( element ) {
+			return v( element[0], element[1], element[2] );
+		}
+
+		var geometry = new THREE.Geometry();
+		geometry.vertices = vertices.map( convert );
+		var material = new THREE.LineBasicMaterial( { color: color, linewidth: linewidth } );
+		var line = new THREE.Line( geometry, material );
+		return line;
+	}
+
+	function canvasText( textArray, color ) {
+		var canvas = document.createElement( 'canvas' );
+		var context = canvas.getContext( '2d' );
+
+		if ( typeof textArray === 'string' ) textArray = [ textArray ];
+		context.font = '48px sans-serif';
+		var width = 0;
+		for (var i = 0, len = textArray.length; i < len; i++) {
+			width = context.measureText( textArray[i] ).width > width ? context.measureText( textArray[i] ).width : width;
+		}
+
+		canvas.width = width + 20; // 480
+		canvas.height = textArray.length * 60;
+
+		context.fillStyle = color;
+		context.fillRect( 0, 0, canvas.width, canvas.height);
+
+		context.lineWidth = 1 ;
+		context.strokeStyle = '#000';
+		context.strokeRect( 0, 0, canvas.width, canvas.height);
+
+		context.fillStyle = '#000' ;
+		context.font = '48px sans-serif';
+
+		for (var i = 0, len = textArray.length; i < len; i++) {
+			context.fillText( textArray[i], 10, 48  + i * 60 );
+		}
+
+		var texture = new THREE.Texture( canvas );
+		texture.minFilter = texture.magFilter = THREE.NearestFilter;
+		texture.needsUpdate = true;
+		return texture;
+
+	}
+
+	function getLatLonOptions() {
+
+		for ( var i = 0; i < 181; i++ ) {
+
+			parent.selLat.appendChild( document.createElement( 'option' ) );
+			parent.selLat.children[ i ].text = 90 - i;
+
+		}
+
+		parent.selLat.selectedIndex = 52;
+
+		for ( var i = 0; i < 361; i++ ) {
+
+			parent.selLon.appendChild( document.createElement( 'option' ) );
+			parent.selLon.children[ i ].text = 180 - i;
+
+		}
+
+		parent.selLon.selectedIndex = 303;
+
+		for ( var i = 0; i < 128; i++ ) {
+
+			parent.selTileX.appendChild( document.createElement( 'option' ) );
+			parent.selTileX.children[ i ].text = i;
+
+		}
+
+		parent.selTileX.selectedIndex = 20;
+
+		for ( var i = 0; i < 128; i++ ) {
+
+			parent.selTileY.appendChild( document.createElement( 'option' ) );
+			parent.selTileY.children[ i ].text = i;
+
+		}
+
+		parent.selTileY.selectedIndex = 49;
+
+	}
+
+	function getLocationMap() {
+
+		canvasLocation = parent.locationMap.appendChild( document.createElement( 'canvas' ) );
+		canvasLocation.width = canvasLocation.height = size;
+		canvasLocation.style.cssText = 'border: 1px solid gray; ';
+		contextLocation = canvasLocation.getContext( '2d' );
+
+		var dir = '../../../samples-png/';
+
+		loadImage( '1-0-0.png', 0, 0 );
+		loadImage( '1-1-0.png', half, 0 );
+		loadImage( '1-0-1.png', 0, half );
+		loadImage( '1-1-1.png', half, half );
+
+		function loadImage( fileName, x, y ) {
+
+			var img = document.createElement( 'img' );
+			img.src = dir + fileName;
+
+			img.onload = function(){
+
+				contextLocation.drawImage( img, 0, 0, 256, 256, x, y, half, half );
+
+				if ( fileName === '1-1-1.png' ) {
+
+					imageLocation = contextLocation.getImageData( 0, 0, size, size );
+
+				}
+
+			}
+
+		}
+
+	}
+
+	function getTextureMaps() {
+
+		mapTypes = [
+			['Default colors',''],
+			['Google Maps','http://mt1.google.com/vt/x='],
+			['Google Maps Terrain','http://mt1.google.com/vt/lyrs=t&x='],
+			['Google Maps Satellite','http://mt1.google.com/vt/lyrs=s&x='],
+			['Google Maps Hybrid','http://mt1.google.com/vt/lyrs=y&x='],
+			['Open Street Map','http://tile.openstreetmap.org/'],
+			['Open Cycle Map', 'http://tile.opencyclemap.org/cycle/'],
+			['MapQuest OSM', 'http://otile3.mqcdn.com/tiles/1.0.0/osm/'],
+			['MapQuest Satellite', 'http://otile3.mqcdn.com/tiles/1.0.0/sat/'],
+			['Stamen terrain background','http://tile.stamen.com/terrain-background/'],
+			['HeightMap','../../../terrain/'],
+			['Wireframe','']
+		];
+
+		for ( var i = 0; i < mapTypes.length; i++ ) {
+
+			parent.selMap.appendChild( document.createElement( 'option' ) );
+			parent.selMap.children[ i ].text = mapTypes[ i ][ 0 ];
+
+		}
+
+		
+
+	}
+
+	function setLocationMapTarget( lat, lon ) {
+
+		if ( !imageLocation ) { return; }
+
+		var siny = Math.sin( ( d2r * lat ) );
+//console.log( 'siny', siny );
+
+		lat = half - Math.log( ( 1 + siny ) / ( 1 - siny ) ) * half * 0.15;
+// 0.1 is just a trial and error number. What should the real scale factor be and why?
+//console.log( 'lat2', lat );
+
+		contextLocation.beginPath(); //
+		contextLocation.clearRect( 0, 0, canvasLocation.width, canvasLocation.height);
+
+		contextLocation.putImageData( imageLocation, 0, 0 );
+		contextLocation.strokeStyle =  'red';
+
+		contextLocation.moveTo( 0, lat );
+		contextLocation.lineTo( size, lat );
+		contextLocation.stroke();
+
+		lon = size * ( ( 180 + lon ) / 360 );
+//console.log( '\n\nlon3', lon );
+
+		contextLocation.moveTo( lon, 0 );
+		contextLocation.lineTo( lon, size );
+		contextLocation.stroke();
+		contextLocation.closePath();
+
+	}
+
+	function readFile() {
+
+		var reader = new FileReader();
+
+		reader.onload = function ( event ) {
+
+			heightMap.src = event.target.result;
+
+		};
+
+		reader.readAsDataURL( parent.inpFile.files[ 0 ] );
+
+	}
+
+	function getHeightMapSrc( fileName, gazetteer ) {
+
+		startTime = Date.now();
+
+		if ( !gazetteer ) parent.selPlace.selectedIndex = 0;
+
+		heightMap.src = fileName;
+
+		setTextureMap();
+
+		setPlacards();
+
+	}
+
+	function selectFile() {
+
+		tileX = lon2tile( parseFloat( parent.selLon.value), 7 );
+		tileY = lat2tile( parseFloat( parent.selLat.value ), 7 );
+
+		getHeightMapSrc(  srcDir + tileX + '/' + tileY + '.png' );
+
+	}
+
+	function initCanvas() {
+
+		var canvas = document.createElement( 'canvas' );
+		canvas.width = heightMap.width;
+		canvas.height =  heightMap.height;
+
+		contextHeightMap = canvas.getContext( '2d' );
+		contextHeightMap.drawImage( heightMap, 0, 0, heightMap.width, heightMap.height, 0, 0, 256, 256 );
+		var image = contextHeightMap.getImageData( 0, 0, 256, 256 );
+		pix = image.data;
+
+		var geometry = new THREE.PlaneGeometry( 256, 256, 255, 255 );
+		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( 0.5 * Math.PI ) );
+		var verts = geometry.vertices;
+		var elevation, elevations = [];
+		min = max = 0;
+
+		var scl = 0.001 * scale;
+ 
+		for ( var i = 0, j = 0; i < pix.length; i += 4, j++) {
+
+			elev = pix[ i ] + 256 * pix[ i + 1 ] + 65536 * pix[ i + 2 ] ;
+
+
+			elev = ( elev < 32767 ) ? elev : elev - 16777216;
+//			elev = elev - 16777216;
+
+			elev  = elev < -15000 ? 0 : elev ;
+
+			max = elev > max ? elev : max;
+			min = elev < min ? elev : min;
+
+			verts[ j ].y = scl * elev ;
+			elevations.push( elev );
+
+		}
+
+		geometry.computeFaceNormals();
+		geometry.computeVertexNormals();
+
+		scene.remove( mesh );
+		mesh = new THREE.Mesh( geometry, mapMaterial );
+		mesh.scale.z = -1;
+		scene.add( mesh );
+
+		setInfo();
+
+	}
+
+	function setInfo() {
+
+		if ( inpFile.files.length > 0 ) {
+
+			parent.msg.innerHTML = 'name: ' + parent.inpFile.files[0].name + ' size: ' + parent.inpFile.files[0].size + 
+			' type: ' + parent.inpFile.files[0].type +
+			' modified: ' + parent.inpFile.files[0].lastModifiedDate;
+
+		} else {
+
+			fileName = heightMap.src.split( '/' ).pop().toLowerCase();
+
+			parent.msg.innerHTML = 'file name: ' + fileName + '<br>' +
+				'png width:' + heightMap.width + ' height:' + heightMap.height + '<br>' +
+				'zoom:' + zoom + ' tileX:' + tileX + ' tileY:' + tileY + '<br>' + 
+				'height min:' + min + ' max:' + max  +
+			'';
+
+			parent.selTileX.selectedIndex = tileX;
+			parent.selTileY.selectedIndex = tileY;
+
+			parent.selLat.selectedIndex = 90 - Math.floor( tile2lat( tileY, 7 ) );
+			parent.selLon.selectedIndex = 180 - Math.floor( tile2lon( tileX, 7 ) );
+
+			lat = parseFloat( parent.selLat.value );
+			lon = parseFloat( parent.selLon.value );
+
+			setLocationMapTarget( lat, lon );
+
+		}
+
+		parent.msg2.innerHTML =  'Load time in ms: ' + ( new Date() - startTime );
+
+	}
+
+	function setTextureMap() {
+
+		if ( selMap.selectedIndex === 0 && mapMaterial.type !== 'MeshNormalMaterial'  ) {
+
+			mapMaterial = new THREE.MeshNormalMaterial( { shading: THREE.SmoothShading, side: 2 } );
+			mesh.material = mapMaterial;
+			mesh.material.needsUpdate = true;
+
+		} else if ( selMap.selectedIndex > 0 && selMap.selectedIndex < 10 ){
+
+			var dir = mapTypes[ selMap.selectedIndex ][ 1 ]; // 'http://b.tile.openstreetmap.org/';
+			var count = 0;
+
+			var size = 2048;
+			var half = 256;
+
+//			canvasMap = document.body.appendChild( document.createElement( 'canvas' ) );
+//			canvasMap.style.cssText = 'border: 1px solid gray; position: absolute; top: 0; z-index:-10;';
+
+			canvasMap = document.createElement( 'canvas' );
+			canvasMap.width = canvasMap.height = size;
+			contextMap = canvasMap.getContext( '2d' );
+
+			for ( var x = 0; x < 8; x++ ) {
+
+				for ( var y = 0; y < 8; y++ ) {
+
+					if ( selMap.selectedIndex < 5 ) {
+
+						loadImage( ( 8 * tileX + x ) + '&y=' + ( 8 * tileY + y ) + '&z=' + ( zoom + 3 ), 256 * x, 256 * y );
+
+					} else {
+
+						loadImage( ( zoom + 3 ) + '/' + ( 8 * tileX + x ) + '/' + ( 8 * tileY + y ) + '.png', 256 * x, 256 * y );
+
+					}
+
+				}
+//console.log(  'z', zoom, 'tilex', ( 4 * tileX + x ), 'y',  ( 4 * tileY + y )  );
+			}
+
+			function loadImage( fileName, x, y ) {
+
+				var img = document.createElement( 'img' );
+				img.crossOrigin = 'Anonymous';
+				img.src = dir + fileName;
+
+				img.onload = function(){
+
+					contextMap.drawImage( img, 0, 0, 256, 256, x, y, 256, 256 );
+
+					if ( ++count === 64 ) {
+
+						texture = new THREE.Texture( canvasMap );
+//						texture.minFilter = texture.magFilter = THREE.NearestFilter;
+						texture.needsUpdate = true;
+
+						mapMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, map: texture, shading: THREE.SmoothShading, side: 2 } );
+						mesh.material = mapMaterial;
+						mesh.material.needsUpdate = true;
+
+					}
+
+				}
+
+			}
+
+		} else {
+
+
+		}
+
+	}
+
+	function tileEast() {
+
+		tileX++;
+		getHeightMapSrc( srcDir + tileX + '/' + tileY + '.png' );
+
+	}
+
+	function tileWest() {
+
+		tileX--;
+		getHeightMapSrc( srcDir + tileX + '/' + tileY + '.png' );
+
+	}
+
+	function tileNorth() {
+
+		tileY--;
+		getHeightMapSrc( srcDir + tileX + '/' + tileY + '.png' );
+
+	}
+
+	function tileSouth() {
+
+		tileY++;
+		getHeightMapSrc( srcDir + tileX + '/' + tileY + '.png' );
+
+	}
+
+
+	function lon2tile( lon, zoom ) {
+
+		return Math.floor( ( lon + 180 ) / 360 * Math.pow( 2, zoom ) );
+
+	}
+
+	function lat2tile( lat, zoom ) {
+
+		var pi = Math.PI
+		return Math.floor(( 1 - Math.log( Math.tan( lat * pi / 180) + 1 / Math.cos( lat * pi / 180)) / pi )/2 * Math.pow(2, zoom) );
+
+	}
+
+	function tile2lon( x, zoom ) {
+
+		return ( x / Math.pow( 2, zoom ) * 360 - 180 );
+
+	}
+
+	function tile2lat( y, zoom ) {
+
+		var pi = Math.PI
+		var n = pi - 2 * pi * y / Math.pow( 2, zoom );
+		return 180 / pi * Math.atan( 0.5 * ( Math.exp( n ) - Math.exp( -n ) ));
+
+	}
+
+	function animate() {
+		requestAnimationFrame( animate );
+		controls.update();
+		renderer.render( scene, camera );
+	}
+
+</script>
+</body>
+</html>

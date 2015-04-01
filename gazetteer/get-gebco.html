@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang=en >
+<head>
+<title>get-gebco.html</title>
+<meta charset=utf-8 />
+<meta name=author content='Theo Armour' />
+</head>
+<body>
+<script>
+
+	var gazetteer;
+
+	document.body.style.cssText = ' font: bold 12pt monospace; ';
+
+	var info = document.body.appendChild( document.createElement( 'div' ) );
+	info.innerHTML = '<a href="" ><h1>' + document.title + '</h1></a>' +
+		'<p>Gazetteer: <select id=selPlace ></select></p>' +
+		'<div id=msg1 ></div>' +
+		'<div id=msg2 ></div>' +
+	'';
+
+	getGazetteerGEBCO();
+
+	function getGazetteerGEBCO() {
+
+		var data = requestGazetteer( './gebco-undersea-feature-names-gazetteer.csv' );
+		var xmlHttp;
+
+		function requestGazetteer( fileName ) {
+
+			xmlHttp = new XMLHttpRequest();
+			xmlHttp.open( 'GET', fileName, true );
+			xmlHttp.onreadystatechange = callbackGazetteer;
+			xmlHttp.send( null );
+
+		}
+
+		function callbackGazetteer() {
+
+			if ( xmlHttp.readyState != 4  ) { return; }
+
+			var response = xmlHttp.responseText;
+
+			lines = response.split(/",\r\n"|",\n"|"\n"/);
+
+			gazetteer = [ ['Select a location','37.796','-122.398'] ];
+
+			var index = 0;
+
+			places = [];
+
+			for ( var i = 1, place; i < lines.length; i++ ) {
+
+				place = lines[i].replace(/"/g,'').split( ',' );
+
+				places.push( place );
+
+				s = place[ place.length - 1 ];
+
+				s = s.replace( /\"POINT|\(|\)/g,'').split(' ');
+
+				gazetteer.push( [ place[ 0 ] + ' ' +  place[ 1 ], parseFloat( s[ 1 ] ), parseFloat( s[ 2 ] ) ] );
+
+				parent.selPlace.appendChild( document.createElement( 'option' ) );
+				parent.selPlace.children[ i - 1 ].text = gazetteer[ i - 1 ][ 0 ]; 
+
+
+			}
+
+console.log( places );
+
+			var txt = '';
+
+			for ( var i = 0; i < gazetteer.length; i++ ) {
+
+				txt += gazetteer[ i ][ 0 ] + ' ~ lon:' + gazetteer[ i ][ 1 ] + ' lat:' + gazetteer[ i ][ 2 ] + '<br>' ;
+
+			}
+
+			msg1.innerHTML = txt;
+
+		}
+
+	}
+</script>
+</body>
+</html>
+

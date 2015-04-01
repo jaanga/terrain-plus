@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang=en >
+<head>
+<title>Template TMS7+ HGT Viewer Bitmap</title>
+<meta charset=utf-8 />
+
+</head>
+<body>
+<script>
+	var xmlHttp;
+
+	var dir = 'C:/temp/srtm-hgt-temp/';
+	var tileX = 20;
+	var tileY = 49;
+
+//	var fileName = dir + '/' + tileX + '/' + tileY + '.hgt';
+	var fileName = '49.hgt';
+
+	var frequency1 = 0.001, 
+	frequency2 = 0.001, 
+	frequency3 = 0.001, 
+	phase1 = 0, 
+	phase2 = 2, // 2 * Math.PI / 3, 
+	phase3 = 4, // 4 * Math.PI / 3 , 
+	center = 128; //255 / 2, 
+	amplitude = 127; // / 2;
+	var sin = function( n ) { return Math.sin( n ); };
+
+	init();
+
+	function init() {
+
+		if ( window.self === window.top ) {
+
+			var css = document.head.appendChild( document.createElement('style') );
+			css.innerHTML ='body { font: 600 12pt monospace; margin: 0; overflow: hidden; }' ;
+
+			var info = document.body.appendChild( document.createElement( 'div' ) );
+			info.style.cssText = 'left: 0; margin: auto; max-width: 900px; position: absolute; right: 0; text-align: center;';
+			info.innerHTML = '<a href="" ><h1>' + document.title + '</h1></a>' +
+				'Pretty colors: <input id=inpPretty type=checkbox title="display a continuous range of colors" ><br>' +
+				'Pretty mistake: <input id=inpPrettyMistake type=checkbox title="BGR instead of RGB" ><br>' +
+				'<div id=msg ></div>' +
+				'<div id=msg2 ></div>' +
+			'';
+
+		} else {
+
+		}
+
+
+		container = document.body.appendChild( document.createElement( 'div' ) );
+		container.style.cssText = 'border: 1px red solid; height: ' + ( window.innerHeight - 20 ) + 'px; overflow: auto; width: ' +
+			( window.innerWidth - 20 ) + 'px; ';
+		canvas = container.appendChild( document.createElement( 'canvas' ) );
+		canvas.width = 337;
+		canvas.height = 350;
+//		canvas.onmousemove = onMMove;
+		canvas.style.cssText = 'border: 1px solid black';
+		context = canvas.getContext( '2d' );
+
+		requestFile( fileName, callbackRequestFile );
+
+	}
+
+	function parseData( arrayBuffer, fname) {
+/*
+		if ( fname.substr( folderSource.length, 4 ) === 'ferr' ) {
+			canvas.width = canvas.height = 1201;
+		} else if ( fname.substr( folderSource.length, 4 ) === 'usgs' ) {
+			canvas.width = canvas.height = 3601;
+		} else {
+			canvas.width = 4800;
+			canvas.height = 6000;
+		}
+*/
+
+		var byteArray = new Uint8Array( arrayBuffer );
+		var imageData = context.createImageData( canvas.width, canvas.height );
+		var imageDataData = imageData.data;
+		var i, len = imageDataData.length;
+		var elevation;
+		var index = 0;
+
+		if ( parent.inpPretty.checked === true ) {
+			for ( i = 0; i < len; i++ ) {
+				//elevation = byteArray[ index++ ] * 256 + byteArray[ index++ ];
+				elevation = ( (byteArray[ index++ ] << 8) + byteArray[ index++ ] );
+				imageDataData[ i++ ] = Math.sin( frequency1 * elevation + phase1 ) * amplitude + center;
+				imageDataData[ i++ ] = Math.sin( frequency2 * elevation + phase2 ) * amplitude + center;
+				imageDataData[ i++ ] = Math.sin( frequency3 * elevation + phase3 ) * amplitude + center;
+				imageDataData[ i ] = 255;
+			}
+		} else if ( parent.inpPrettyMistake.checked === true ) {
+			for ( i = 0; i < len; i++ ) {
+				//elevation = byteArray[ index++ ] * 256 + byteArray[ index++ ];
+				elevation = ( (byteArray[ index++ ] << 8) + byteArray[ index++ ] );
+				imageDataData[ i++ ] = elevation & 0x0000ff;
+				imageDataData[ i++ ] = (( elevation & 0x00ff00) >> 8);
+				imageDataData[ i++ ] = ((elevation & 0xff0000) >> 16);
+				imageDataData[ i ] = 255;
+			}
+		} else {
+
+			for ( i = 0; i < len; i++ ) {
+				// elevation = byteArray[ index++ ] * 256 + byteArray[ index++ ];
+				elevation = ( (byteArray[ index++ ] << 8) + byteArray[ index++ ] );
+				imageDataData[ i++ ] = (( elevation & 0xff0000 ) >> 16 );
+				imageDataData[ i++ ] = (( elevation & 0x00ff00 ) >> 8 );
+				imageDataData[ i++ ] = elevation & 0x0000ff;
+				imageDataData[ i ] = 255;
+			}
+		}
+
+		context.putImageData( imageData, 0, 0 );
+
+// Following is for testing and verification
+// 'elevations' records the data read from the source files. 
+// Used to check if the height maps elevations and source agree
+		elevations = [];
+		len = byteArray.length;
+		index = 0;
+		for ( i = 0; i < len; ) {
+			elevations.push( byteArray[ i++ ] * 256 + byteArray[ i++ ] );
+		}
+
+//console.log( 'Load time in ms: ', new Date() - startTime );
+
+	}
+
+
+	function readFile() {
+
+console.log( 'update' );
+
+			var reader = new FileReader();
+
+			reader.onload = function ( event ) {
+
+				var output = reader.result;
+				textOSM = output;
+
+				parent.msg.innerHTML = 'name: ' + parent.inpFile.files[0].name + ' size: ' + parent.inpFile.files[0].size + 
+				' type: ' + parent.inpFile.files[0].type +
+				' modified: ' + parent.inpFile.files[0].lastModifiedDate;
+
+				parseData( output, parent.inpFile.files[0].name );
+
+			};
+
+			reader.readAsArrayBuffer( parent.inpFile.files[ 0 ] );
+
+	}
+
+	function selectFile() {
+
+		tileX = lon2tile( parseFloat( parent.selLon.value), 7 );
+		tileY = lat2tile( parseFloat( parent.selLat.value ), 7 );
+
+		fileName = dir + tileX + '/' + tileY + '.hgt';
+
+console.log( fileName );
+
+		requestFile( fileName, callbackRequestFile );
+
+	}
+
+	function requestFile( fileName, callback ) {
+
+		xmlHttp = new XMLHttpRequest();
+		xmlHttp.open( 'GET', fileName, true );
+		xmlHttp.responseType = "arraybuffer";
+		xmlHttp.onreadystatechange = callback;
+		xmlHttp.send( null );
+
+	}
+
+	function callbackRequestFile() {
+
+		if ( xmlHttp.readyState != 4  ) { return; }
+		response = xmlHttp.response;
+		parseData( response, fileName );
+
+		parent.msg.innerHTML = 'Tile X: ' + tileX + ' TileY: ' + tileY + '<br>' +
+			'Lat: ' + tile2lat( tileY, 7).toFixed( 1 ) + ' Lon: ' + tile2lon( tileX, 7).toFixed( 1 ) ;
+
+	}
+
+	function tileEast() {
+		tileX++;
+
+		fileName = dir + tileX + '/' + tileY + '.hgt';
+
+		requestFile( fileName, callbackRequestFile );
+
+	}
+
+	function tileWest() {
+		tileX--;
+
+		requestFile( dir + tileX + '/' + tileY + '.hgt', callbackRequestFile );
+
+	}
+
+	function tileNorth() {
+		tileY--;
+
+		requestFile( dir + tileX + '/' + tileY + '.hgt', callbackRequestFile );
+
+	}
+
+	function tileSouth() {
+		tileY++;
+
+		requestFile( dir + tileX + '/' + tileY + '.hgt', callbackRequestFile );
+
+	}
+
+	function lon2tile( lon, zoom ) {
+
+		return Math.floor( ( lon + 180 ) / 360 * Math.pow( 2, zoom ) );
+
+	}
+
+	function lat2tile( lat, zoom ) {
+
+		var pi = Math.PI
+		return Math.floor(( 1 - Math.log( Math.tan( lat * pi / 180) + 1 / Math.cos( lat * pi / 180)) / pi )/2 * Math.pow(2, zoom) );
+
+	}
+
+	function tile2lon( x, zoom ) {
+
+		return ( x / Math.pow( 2, zoom ) * 360 - 180 );
+
+	}
+
+	function tile2lat( y, zoom ) {
+
+		var pi = Math.PI
+		var n = pi - 2 * pi * y / Math.pow( 2, zoom );
+		return 180 / pi * Math.atan( 0.5 * ( Math.exp( n ) - Math.exp( -n ) ));
+
+	}
+
+</script>
+</body>
+</html>

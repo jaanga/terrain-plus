@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang=en >
+<head>
+<title>Template</title>
+<meta charset=utf-8 />
+<meta name=author content='Theo Armour' />
+</head>
+<body>
+<script>
+
+		container = document.body.appendChild( document.createElement( 'div' ) );
+		container.style.cssText = 'border: 1px red solid; height: ' + ( window.innerHeight - 20 ) + 'px; overflow: auto; width: ' +
+			( window.innerWidth - 20 ) + 'px; ';
+		canvas = container.appendChild( document.createElement( 'canvas' ) );
+		canvas.width = 337;
+		canvas.height = 350;
+//		canvas.onmousemove = onMMove;
+		canvas.style.cssText = 'border: 1px solid black';
+		context = canvas.getContext( '2d' );
+
+
+
+	function parseData( arrayBuffer, fname) {
+
+/*
+		if ( fname.substr( folderSource.length, 4 ) === 'ferr' ) {
+			canvas.width = canvas.height = 1201;
+		} else if ( fname.substr( folderSource.length, 4 ) === 'usgs' ) {
+			canvas.width = canvas.height = 3601;
+		} else {
+			canvas.width = 4800;
+			canvas.height = 6000;
+		}
+*/
+
+		var byteArray = new Uint8Array( arrayBuffer );
+		var imageData = context.createImageData( canvas.width, canvas.height );
+		var imageDataData = imageData.data;
+		var i, len = imageDataData.length;
+		var elevation;
+		var index = 0;
+/*
+		if ( inpPretty.checked === true ) {
+			for ( i = 0; i < len; i++ ) {
+				//elevation = byteArray[ index++ ] * 256 + byteArray[ index++ ];
+				elevation = ( (byteArray[ index++ ] << 8) + byteArray[ index++ ] );
+				imageDataData[ i++ ] = sin( frequency1 * elevation + phase1 ) * amplitude + center;
+				imageDataData[ i++ ] = sin( frequency2 * elevation + phase2 ) * amplitude + center;
+				imageDataData[ i++ ] = sin( frequency3 * elevation + phase3 ) * amplitude + center;
+				imageDataData[ i ] = 255;
+			}
+		} else if ( inpPrettyMistake.checked === true ) {
+			for ( i = 0; i < len; i++ ) {
+				//elevation = byteArray[ index++ ] * 256 + byteArray[ index++ ];
+				elevation = ( (byteArray[ index++ ] << 8) + byteArray[ index++ ] );
+				imageDataData[ i++ ] = elevation & 0x0000ff;
+				imageDataData[ i++ ] = (( elevation & 0x00ff00) >> 8);
+				imageDataData[ i++ ] = ((elevation & 0xff0000) >> 16);
+				imageDataData[ i ] = 255;
+			}
+		} else {
+*/
+			for ( i = 0; i < len; i++ ) {
+				// elevation = byteArray[ index++ ] * 256 + byteArray[ index++ ];
+				elevation = ( (byteArray[ index++ ] << 8) + byteArray[ index++ ] );
+				imageDataData[ i++ ] = (( elevation & 0xff0000 ) >> 16 );
+				imageDataData[ i++ ] = (( elevation & 0x00ff00 ) >> 8 );
+				imageDataData[ i++ ] = elevation & 0x0000ff;
+				imageDataData[ i ] = 255;
+			}
+//		}
+
+		context.putImageData( imageData, 0, 0 );
+
+// Following is for testing and verification
+// 'elevations' records the data read from the source files. 
+// Used to check if the height maps elevations and source agree
+		elevations = [];
+		len = byteArray.length;
+		index = 0;
+		for ( i = 0; i < len; ) {
+			elevations.push( byteArray[ i++ ] * 256 + byteArray[ i++ ] );
+		}
+
+//console.log( 'Load time in ms: ', new Date() - startTime );
+	}
+</script>
+</body>
+</html>

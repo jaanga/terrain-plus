@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang=en >
+<head>
+<title>Compare HGT R1</title>
+<meta charset=utf-8 />
+</head>
+<body>
+<script>
+// reads files up to 1 GB or so
+
+	var tileX = 20;
+	var tileY = 49;
+
+	var latStart = tile2lat( tileY, 7 );
+	var latEnd = tile2lat( tileY + 1, 7 );
+
+	var lonStart = tile2lon( tileX, 7 );
+	var lonEnd = tile2lon( tileX + 1, 7 );
+
+	var columns = 43200; // srtm
+	var dataBytesPerRow = 2 * columns;// 2 bytes per column
+	var rows = 21600 / 2; // only half the world map // strm
+
+	var dataPointsPerDegree = 120; // srtm
+
+	var rowsPerTMS = Math.round( Math.abs( latStart - latEnd ) * dataPointsPerDegree );
+	var colsPerTMS = Math.floor( columns / 128 );
+	var bytesPerRow = 2 * 337;
+
+	var dataRowStart = Math.floor( 120 * ( 90 - latStart ) );
+	var dataRowEnd = -1 + Math.floor( 120 * ( 90 - latEnd ) );
+	var dataRows = dataRowEnd - dataRowStart;
+
+	var bytesCheckSumHGT, bytesCheckSumTopo;
+
+	var testRow = 100;
+
+	init();
+
+	function init() {
+
+		document.body.style.cssText = ' font: bold 12pt monospace; ';
+
+		var info = document.body.appendChild( document.createElement( 'div' ) );
+		info.innerHTML = '<a href="" ><h1>' + document.title + '</h1></a>' +
+//			'<input type=file id=inpFile onchange=fileReader(); />' +
+			'<div id=msg0 ></div>' +
+			'<div id=msg1 ></div>' +
+			'<div id=msg2 ></div>' +
+			'<div id=msg3 ></div>' +
+			'<div id=msg4 ></div>' +
+			'<div id=msg5 ></div>' +
+
+			'<div id=msg6 ></div>' +
+			'<div id=msg7 ></div>' +
+			'<div id=msg8 ></div>' +
+			'<div id=msg9 ></div>' +
+			'<div id=msg10 ></div>' +
+			'<p><a id=download href=# onclick=downloadIt(); >Download as image</a> ' +
+				'<a href=# onclick=copyIt() >Copy image</a>' +
+
+			'</p>' +
+
+		'';
+
+		msg0.innerHTML = 'tileX:' + tileX + ' tileY:' + tileY + ' ~ ' +
+			'latStart:' + latStart.toFixed( 2 ) + ' latEnd:' + latEnd.toFixed( 2 ) + ' ~ ' +
+			'lonStart:' + lonStart.toFixed( 2 ) + ' lonEnd:' + lonEnd.toFixed( 2 ) + ' ~ ' +
+			'rowsPerTMS:' + rowsPerTMS + ' colsPerTMS:' + colsPerTMS + ' ~ ' +
+			'dataRowStart:' + dataRowStart + ' dataRowEnd:' + dataRowEnd + ' dataRows:' + dataRows + '<br>' +
+			'bytes?:' + ( bytesPerRow * dataRows ) +
+		'';
+
+		getHGT();
+
+//		getTopo();
+
+	}
+
+	function getHGT() {
+
+		var fileName = '../../node-utilities/node-srtm-to-tms-hgt/r2/' + tileX + '/' + tileY + '.hgt';
+
+		requestFile( fileName );
+
+		var xmlHttp;
+
+		function requestFile( fileName ) {
+
+			xmlHttp = new XMLHttpRequest();
+			xmlHttp.open( 'GET', fileName, true );
+			xmlHttp.responseType = "arraybuffer";
+			xmlHttp.onreadystatechange = callback;
+//			xmlHttp.setRequestHeader('Range', 'bytes=' + byteStart + '-' + byteEnd );
+			xmlHttp.send( null );
+
+		}
+
+		function callback() {
+
+			if ( xmlHttp.readyState != 4  ) { return; }
+
+			arrayBuffer = xmlHttp.response;
+
+			byteArray = new Uint8Array( arrayBuffer );
+
+			msg6.innerHTML = '<h3>File name: ' + fileName + ' length: ' + byteArray.length + '</h3>' +
+
+			'';
+
+			rowStart = 0
+			rowEnd = dataRows + 1;
+
+			columnStart = 0;
+			columnEnd = colsPerTMS;
+
+			bytesRead = 0;
+			index = 0;
+			bytes = [];
+			bytesCheckSumHGT = 0
+
+			hex = [];
+
+			elevations = [];
+			elevationsCheckSumHGT = 0;
+
+			rgb = [];
+
+			min = max = 0;
+
+			for ( var row = rowStart; row < rowEnd; row++) {
+
+				for ( var column = columnStart; column < columnEnd; column++, index += 2 ) {
+
+					byte1 = byteArray[ row * bytesPerRow + index ];
+					bytes.push( byte1 );
+					byte2 = byteArray[ row * bytesPerRow + index + 1 ];
+					bytes.push( byte2 );
+
+					bytesCheckSumHGT += byte1 + byte2;
+
+					hex.push( byte1.toString( 16 ).toUpperCase() );
+					hex.push( byte2.toString( 16 ).toUpperCase() );
+
+					elevation = byte1 * 256 + byte2 ;
+
+					r = elevation & 0x0000ff;
+					g = ( elevation & 0x00ff00 ) >> 8;
+					b = ( elevation & 0xff0000 ) >> 16;
+
+					rgb.push( r, g, b, 255 )
+
+					elevation = elevation > 32767 ? elevation - 65536: elevation;
+
+if ( elevation < min ) { min = elevation; }
+if ( elevation > max ) { max = elevation; }
+
+					elevations.push( elevation );
+					elevationsCheckSumHGT += elevation;
+
+				}
+
+				bytesRead += index;
+
+				if ( row === rowStart || row === rowEnd - 1 || row === testRow ) {
+
+					updateStats( row );
+
+console.log( 'HGT min', min, 'max', max );
+
+				}
+
+				column = columnStart;
+
+				index = 0;
+				bytes = [];
+				hex = [];
+				elevations = [];
+
+			}
+
+		}
+
+		function updateStats( row ) {
+
+			msg7.innerHTML += 'Row ' + row + ' ~ Bytes length:' + bytes.length + ' read:' + bytesRead + ' ' + ' checksum:' + bytesCheckSumHGT + ' bytes:' + bytes + '<br>' +
+				'Hex length:' + hex.length + ' numbers:' + hex + '<br>' +
+				'Integers length: ' + elevations.length + ' checksum:' + elevationsCheckSumHGT + ' ' + elevations + '<br><br>' +
+//				'rgb: ' + rgb + '<br>' +
+			'';
+
+			if ( row === rowEnd - 1 ) {
+
+				createImage( rgb );
+			}
+
+		}
+
+	}
+
+	function createImage() {
+
+		canvas = document.body.appendChild( document.createElement( 'canvas' ) );
+		canvas.width = colsPerTMS;
+		canvas.height = rowsPerTMS;
+		canvas.style.cssText = 'border: 2px solid magenta';
+		context = canvas.getContext( '2d' );
+		image = context.createImageData( canvas.width, canvas.height );
+		len = image.length;
+		imageData = image.data;
+
+		for ( i = 0; i < rgb.length; ) {
+
+			imageData[ i ] = rgb[ i++ ];
+			imageData[ i ] = rgb[ i++ ];
+			imageData[ i ] = rgb[ i++ ];
+			imageData[ i++ ] = 255;
+/*
+			imageData[ i ] = rgb[ i++ ];
+			imageData[ i ] = rgb[ i++ ];
+			imageData[ i ] = rgb[ i++ ];
+			imageData[ i++ ] = 255;
+*/
+
+		}
+
+		context.putImageData( image, 0, 0 );
+
+//		readImageData();
+
+	}
+
+
+	function readImageData() {
+
+		imageD = context.getImageData(0, 0, canvas.width, canvas.height )
+		elevs = [];
+
+//console.log( imageD );
+
+elevCheckSum = 0;
+
+		for ( var i = 0; i < imageD.data.length; i += 4 ) {
+
+			elev = image.data[ i ] + image.data[ i + 1 ] * 256 + image.data[ i + 2 ] * 65536
+
+			elev = elev > 32767 ? elev - 65536: elev;
+
+			elevs.push( elev );
+
+			elevCheckSum += elev;
+
+			if ( i === (336 * 4 ) ) {
+
+console.log( 'elevCheckSum', elevCheckSum );
+
+			}
+
+		}
+
+console.log( elevs );
+
+	}
+
+	function downloadIt() {
+
+		c2du = canvas.toDataURL( 'image/jpg', 1.0 ); 
+
+		download.download = 'test.jpg';
+
+		download.href = c2du;
+
+	}
+
+
+	function copyIt() {
+
+		c2du = canvas.toDataURL( 'image/png', 1.0 ); 
+
+		imageB = document.createElement( 'img' );
+
+
+
+		imageB.src = c2du;
+
+		canvas2 = document.body.appendChild( document.createElement( 'canvas' ) );
+		
+		canvas2.width = imageB.width;
+		canvas2.height = imageB.height;
+		context2 = canvas2.getContext("2d");
+		context2.drawImage( imageB, 0, 0 );
+
+
+		imageBD = context2.getImageData(0, 0, imageB.width, imageB.height )
+
+		elevs = [];
+
+//console.log( imageD );
+
+elevCheckSum = 0;
+
+		for ( var i = 0; i < imageBD.data.length; i += 4 ) {
+
+			elev = imageBD.data[ i ] + imageBD.data[ i + 1 ] * 256 + imageBD.data[ i + 2 ] * 65536
+
+			elev = elev > 32767 ? elev - 65536: elev;
+
+			elevs.push( elev );
+
+			elevCheckSum += elev;
+
+			if ( i === (336 * 4 ) ) {
+
+console.log( 'elevCheckSum', elevCheckSum );
+
+			}
+
+		}
+
+console.log( elevs );
+
+
+	}
+
+	function getTopo() {
+
+		var fileName = 'C:/temp/topo30/topo1.gsd';
+
+		dataColumnStart = 2 * ( columns + ( Math.floor( 120 * lonStart ) ) );
+		dataColumnEnd = 2 * ( columns + ( Math.floor( 120 * lonEnd ) ) );
+
+		var byteStart = dataRowStart * dataBytesPerRow + dataColumnStart;
+		var byteFinish = dataRowEnd * dataBytesPerRow + dataColumnEnd;
+
+		requestFile( fileName );
+
+		var xmlHttp;
+
+		function requestFile( fileName ) {
+
+			xmlHttp = new XMLHttpRequest();
+			xmlHttp.open( 'GET', fileName, true );
+			xmlHttp.responseType = "arraybuffer";
+			xmlHttp.onreadystatechange = callback;
+			xmlHttp.setRequestHeader('Range', 'bytes=' + byteStart + '-' + byteFinish );
+			xmlHttp.send( null );
+
+		}
+
+		function callback() {
+
+			if ( xmlHttp.readyState != 4  ) { return; }
+
+			arrayBuffer = xmlHttp.response;
+
+			byteArray = new Uint8Array( arrayBuffer );
+
+			msg3.innerHTML = '<h3>File name: ' + fileName + ' length: ' + byteArray.length + '</h3>' +
+				'byteStart: ' + byteStart + ' ~ byteFinish:' + byteFinish + '<br>' +
+			'';
+
+			rowStart = 0
+			rowEnd = dataRows + 1;
+
+			columnStart = 0;
+			columnEnd = 337;
+
+			bytesRead = 0;
+			index = 0
+			bytes = [];
+			bytesCheckSumTopo = 0;
+
+			hex = [];
+
+			elevations = [];
+			elevationsCheckSumTopo = 0;
+
+			min = max = 0;
+
+			for ( var row = rowStart; row < rowEnd; row++) {
+
+				for ( var column = columnStart; column < columnEnd; column++, index += 2 ) {
+
+					byte1 = byteArray[ row * dataBytesPerRow + index ];
+					bytes.push( byte1 );
+					byte2 = byteArray[ row * dataBytesPerRow + index + 1 ];
+					bytes.push( byte2 );
+
+					bytesCheckSumTopo += byte1 + byte2;
+
+					hex.push( byte1.toString( 16 ).toUpperCase() );
+					hex.push( byte2.toString( 16 ).toUpperCase() );
+
+//					elevation = ( ( byte1 * 256 ) + byte2 ) - 65536;
+
+
+					elevation = byte1 * 256 + byte2 ;
+
+					elevation = elevation > 32767 ? elevation - 65536: elevation;
+
+if ( elevation < min ) { min = elevation; }
+if ( elevation > max ) { max = elevation; }
+
+					elevations.push( elevation );
+					elevationsCheckSumTopo += elevation;
+
+				}
+
+				bytesRead += index;
+
+				if ( row === rowStart || row === rowEnd - 1 || row === testRow ) {
+
+					updateStats( row );
+
+				}
+
+				column = columnStart;
+				index = 0;
+				bytes = [];
+				hex = [];
+				elevations = [];
+
+			}
+
+		}
+
+		function updateStats( row ) {
+
+			msg4.innerHTML += 'Row ' + row + ' ~ Bytes length:' + bytes.length + ' read:' + bytesRead + ' ' + ' checksum:' + bytesCheckSumTopo + ' ' + bytes + '<br>' +
+				'Hex length:' + hex.length + ' numbers: ' + hex + '<br>' +
+				'Elevations length: ' + elevations.length + ' checksum:' + elevationsCheckSumTopo + ' ' + elevations + '<br><br>' +
+			'';
+
+			msg1.innerHTML = 'bytesCheckSum: ' + bytesCheckSumHGT + ' ' + bytesCheckSumTopo + '<br>' +
+				'elevationsCheckSum: ' + elevationsCheckSumHGT + ' ' + elevationsCheckSumTopo +
+		'';
+
+console.log( 'Topo min', min, 'max', max );
+
+		}
+
+	}
+
+	function fileReader() {
+
+		var reader = new FileReader();
+
+		reader.onload = parseData;
+
+		reader.readAsArrayBuffer( parent.inpFile.files[ 0 ] );
+
+	}
+
+	function lon2tile( lon, zoom ) {
+
+		return Math.floor( ( lon + 180 ) / 360 * Math.pow( 2, zoom ) );
+
+	}
+
+	function lat2tile( lat, zoom ) {
+
+		var pi = Math.PI
+		return Math.floor(( 1 - Math.log( Math.tan( lat * pi / 180) + 1 / Math.cos( lat * pi / 180)) / pi )/2 * Math.pow(2, zoom) );
+
+	}
+
+	function tile2lon( x, zoom ) {
+
+		return ( x / Math.pow( 2, zoom ) * 360 - 180 );
+
+	}
+
+	function tile2lat( y, zoom ) {
+
+		var pi = Math.PI
+		var n = pi - 2 * pi * y / Math.pow( 2, zoom );
+		return 180 / pi * Math.atan( 0.5 * ( Math.exp( n ) - Math.exp( -n ) ));
+
+	}
+
+
+</script>
+</body>
+</html>

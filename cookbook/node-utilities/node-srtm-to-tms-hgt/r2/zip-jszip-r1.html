@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang=en >
+<head>
+<title>zip-jszip-r1</title>
+<meta charset=utf-8 />
+</head>
+<body>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js ></script>
+<script>
+// http://stuk.github.io/jszip/
+
+
+	var tileX = 20;
+	var tileY = 49;
+
+	var latStart = tile2lat( tileY, 7 );
+	var latEnd = tile2lat( tileY + 1, 7 );
+
+	var lonStart = tile2lon( tileX, 7 );
+	var lonEnd = tile2lon( tileX + 1, 7 );
+
+	var columns = 43200; // srtm
+	var dataBytesPerRow = 2 * columns;// 2 bytes per column
+	var rows = 21600 / 2; // only half the world map // strm
+
+	var dataPointsPerDegree = 120; // srtm
+
+	var rowsPerTMS = Math.round( Math.abs( latStart - latEnd ) * dataPointsPerDegree );
+	var colsPerTMS = Math.floor( columns / 128 );
+	var bytesPerRow = 2 * 337;
+
+	var dataRowStart = Math.floor( 120 * ( 90 - latStart ) );
+	var dataRowEnd = -1 + Math.floor( 120 * ( 90 - latEnd ) );
+	var dataRows = dataRowEnd - dataRowStart;
+
+	var bytesCheckSumHGT, bytesCheckSumTopo;
+
+	var testRow = 100;
+
+	var txt = 'lorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?';
+
+	var imgData = "R0lGODdhBQAFAIACAAAAAP/eACwAAAAABQAFAAACCIwPkWerClIBADs=";
+
+	var content;
+
+	init();
+
+	function init() {
+
+		document.body.style.cssText = ' font: bold 12pt monospace; ';
+
+		var info = document.body.appendChild( document.createElement( 'div' ) );
+		info.innerHTML = '<a href="" ><h1>' + document.title + '</h1></a>' +
+//			'<img id=image src=../../images/img_the_scream.jpg />' +
+			'<p>' +
+				'Open HGT: <input type=file id=inpFile onchange=readHGT(); />' +
+				'<a href="" id=download onclick=saveAs(); >Save As Zip</a> ' +
+				'Open Zipped HGT: <input type=file id=inpZip onchange=openZippedHGT(); />' +
+			'</p>' +
+			'<div id=msg1 ></div>' +
+			'<div id=msg2 ></div>' +
+		'';
+/*
+		var zip = new JSZip();
+		zip.file( "Hello.txt", txt );
+		var img = zip.folder( "images" );
+		img.file( "smile.gif", imgData, { base64: true } );
+		content = zip.generate( { type: "blob" } );
+*/
+
+	}
+
+	function readHGT() {
+
+			var reader = new FileReader();
+
+			reader.onload = function ( event ) {
+
+				result = reader.result;
+
+				msg1.innerHTML = 'name: ' + inpFile.files[0].name + ' size: ' + inpFile.files[0].size + 
+				' type: ' + inpFile.files[0].type 
+				+ ' modified: ' + inpFile.files[0].lastModifiedDate;
+
+				msg2.innerHTML = result;
+
+			};
+
+			reader.readAsArrayBuffer( inpFile.files[ 0 ] );
+
+	}
+
+	function saveAs() {
+
+		var zip = new JSZip();
+
+		zip.file( "test.hgt", result );
+
+		content = zip.generate( { type: "blob", compression: "DEFLATE" } );
+
+		download.href = window.URL.createObjectURL( content );
+
+		download.download = 'test-jszip.zip';
+
+	}
+
+
+	function openZippedHGT() {
+
+		var reader = new FileReader();
+
+		reader.onload = function ( event ) {
+
+			msg1.innerHTML = 'name: ' + inpZip.files[0].name + ' size: ' + inpZip.files[0].size + 
+			' type: ' + inpZip.files[0].type 
+			+ ' modified: ' + inpZip.files[0].lastModifiedDate;
+
+			zip = new JSZip( event.target.result );
+
+			msg2.innerHTML = zip.files;
+
+			byteArray = zip.file('test.hgt').asUint8Array();
+
+//			byteArray = new Uint8Array( hgt );
+
+console.log( 'length', byteArray.length );
+
+			getHGT();
+
+		};
+
+		reader.readAsArrayBuffer( inpZip.files[ 0 ] );
+
+	}
+fileName = 'test';
+
+	function getHGT() {
+
+			msg1.innerHTML = '<h3>File name: ' + fileName + ' length: ' + byteArray.length + '</h3>' +
+
+			'';
+
+			rowStart = 0
+			rowEnd = dataRows + 1;
+
+			columnStart = 0;
+			columnEnd = colsPerTMS;
+
+			bytesRead = 0;
+			index = 0;
+			bytes = [];
+			bytesCheckSumHGT = 0
+
+			hex = [];
+
+			elevations = [];
+			elevationsCheckSumHGT = 0;
+
+			rgb = [];
+
+			min = max = 0;
+
+			for ( var row = rowStart; row < rowEnd; row++) {
+
+				for ( var column = columnStart; column < columnEnd; column++, index += 2 ) {
+
+					byte1 = byteArray[ row * bytesPerRow + index ];
+					bytes.push( byte1 );
+					byte2 = byteArray[ row * bytesPerRow + index + 1 ];
+					bytes.push( byte2 );
+
+					bytesCheckSumHGT += byte1 + byte2;
+
+					hex.push( byte1.toString( 16 ).toUpperCase() );
+					hex.push( byte2.toString( 16 ).toUpperCase() );
+
+					elevation = byte1 * 256 + byte2 ;
+
+					r = elevation & 0x0000ff;
+					g = ( elevation & 0x00ff00 ) >> 8;
+					b = ( elevation & 0xff0000 ) >> 16;
+
+					rgb.push( r, g, b, 255 )
+
+					elevation = elevation > 32767 ? elevation - 65536: elevation;
+
+if ( elevation < min ) { min = elevation; }
+if ( elevation > max ) { max = elevation; }
+
+					elevations.push( elevation );
+					elevationsCheckSumHGT += elevation;
+
+				}
+
+				bytesRead += index;
+
+				if ( row === rowStart || row === rowEnd - 1 || row === testRow ) {
+
+					updateStats( row );
+
+console.log( 'HGT min', min, 'max', max );
+
+				}
+
+				column = columnStart;
+
+				index = 0;
+				bytes = [];
+				hex = [];
+//				elevations = [];
+
+			}
+
+		}
+
+		function updateStats( row ) {
+
+			msg2.innerHTML += 'Row ' + row + ' ~ Bytes length:' + bytes.length + ' read:' + bytesRead + ' ' + ' checksum:' + bytesCheckSumHGT + ' bytes:' + bytes + '<br>' +
+				'Hex length:' + hex.length + ' numbers:' + hex + '<br>' +
+				'Integers length: ' + elevations.length + ' checksum:' + elevationsCheckSumHGT + ' ' + elevations + '<br><br>' +
+//				'rgb: ' + rgb + '<br>' +
+			'';
+
+			if ( row === rowEnd - 1 ) {
+
+				createImage( rgb );
+			}
+
+		}
+
+
+	function createImage() {
+
+		canvas = document.body.appendChild( document.createElement( 'canvas' ) );
+		canvas.width = colsPerTMS;
+		canvas.height = rowsPerTMS;
+		canvas.style.cssText = 'border: 2px solid magenta';
+		context = canvas.getContext( '2d' );
+		image = context.createImageData( canvas.width, canvas.height );
+		len = image.length;
+		imageData = image.data;
+
+		for ( i = 0; i < rgb.length; ) {
+
+			imageData[ i ] = rgb[ i++ ];
+			imageData[ i ] = rgb[ i++ ];
+			imageData[ i ] = rgb[ i++ ];
+			imageData[ i++ ] = 255;
+/*
+			imageData[ i ] = rgb[ i++ ];
+			imageData[ i ] = rgb[ i++ ];
+			imageData[ i ] = rgb[ i++ ];
+			imageData[ i++ ] = 255;
+*/
+
+		}
+
+		context.putImageData( image, 0, 0 );
+
+//		readImageData();
+
+	}
+
+
+	function lon2tile( lon, zoom ) {
+
+		return Math.floor( ( lon + 180 ) / 360 * Math.pow( 2, zoom ) );
+
+	}
+
+	function lat2tile( lat, zoom ) {
+
+		var pi = Math.PI
+		return Math.floor(( 1 - Math.log( Math.tan( lat * pi / 180) + 1 / Math.cos( lat * pi / 180)) / pi )/2 * Math.pow(2, zoom) );
+
+	}
+
+	function tile2lon( x, zoom ) {
+
+		return ( x / Math.pow( 2, zoom ) * 360 - 180 );
+
+	}
+
+	function tile2lat( y, zoom ) {
+
+		var pi = Math.PI
+		var n = pi - 2 * pi * y / Math.pow( 2, zoom );
+		return 180 / pi * Math.atan( 0.5 * ( Math.exp( n ) - Math.exp( -n ) ));
+
+	}
+
+</script>
+</body>
+</html>

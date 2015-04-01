@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang=en >
+<head>
+<title>File Reader Binary Large.html</title>
+<meta charset=utf-8 />
+</head>
+<body>
+<script>
+// reads files up to 1 GB or so
+
+	init();
+
+	function init() {
+
+		document.body.style.cssText = ' font: bold 12pt monospace; ';
+
+		var info = document.body.appendChild( document.createElement( 'div' ) );
+		info.innerHTML = '<a href="" ><h1>' + document.title + '</h1></a>' +
+			'<input type=file id=inpFile onchange=fileReader(); />' +
+			'<div id=msg1 ></div>' +
+			'<div id=msg2 ></div>' +
+			'<div id=msg3 ></div>' +
+			'<div id=msg4 ></div>' +
+			'<div id=msg5 ></div>' +
+		'';
+
+	}
+
+	function fileReader() {
+
+		var reader = new FileReader();
+
+		reader.onload = parseData;
+
+//		reader.readAsDataURL( parent.inpFile.files[ 0 ] );
+		reader.readAsArrayBuffer( parent.inpFile.files[ 0 ] );
+
+	}
+
+	function parseData( event ) {
+
+		arrayBuffer = event.target.result;
+
+		byteArray = new Uint8Array( arrayBuffer );
+
+		parent.msg1.innerHTML = 'file name: ' + parent.inpFile.files[0].name + ' size: ' + parent.inpFile.files[0].size + 
+		' type: ' + parent.inpFile.files[0].type +
+		' modified: ' + parent.inpFile.files[0].lastModifiedDate;
+
+		index = 0
+
+		bytes = [];
+		bytesCheckSum = 0
+
+		hex = [];
+
+		elevations = [];
+		elevationsCheckSum = 0;
+
+		for ( var i = 0; i < 2 * 337; ) {
+
+			b1 = byteArray[ i++ ];
+			bytes.push( b1 );
+			b2 = byteArray[ i++ ];
+			bytes.push( b2 );
+			bytesCheckSum += b1 + b2;
+
+			hex.push( b1.toString( 16 ).toUpperCase() );
+			hex.push( b2.toString( 16 ).toUpperCase() );
+
+			elevation = ( ( b1 << 8) + b2 ) - 65536;
+			elevations.push( elevation );
+			elevationsCheckSum += elevation;
+
+		}
+
+		msg2.innerHTML = '<br>Bytes: ' + bytesCheckSum + ' ' + bytes;
+		msg3.innerHTML = 'Hex: ' + hex;
+		msg4.innerHTML = 'Integers: ' + elevationsCheckSum + ' ' +elevations;
+
+console.log( 'byteArray.length', byteArray.length, 'byteArray.byteLength', byteArray.byteLength );
+console.log( 'bytesCheckSum', bytesCheckSum, 'elevationsCheckSum', elevationsCheckSum );
+
+	}
+
+
+// which is better?
+/*
+	function fileReader() {
+
+		var reader = new FileReader();
+
+		reader.onload = function ( event ) {
+
+			result = window.URL.createObjectURL( inpFile.files[0] );
+
+			parent.msg1.innerHTML = 'name: ' + parent.inpFile.files[0].name + ' size: ' + parent.inpFile.files[0].size + 
+			' type: ' + parent.inpFile.files[0].type +
+			' modified: ' + parent.inpFile.files[0].lastModifiedDate;
+
+			msg2.innerHTML = result;
+
+		};
+
+		reader.readAsArrayBuffer( parent.inpFile.files[ 0 ] );
+
+	}
+
+*/
+
+
+</script>
+</body>
+</html>
