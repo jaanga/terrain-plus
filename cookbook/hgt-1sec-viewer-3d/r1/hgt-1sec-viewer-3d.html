@@ -18,10 +18,11 @@
 	var changes = 0;
 
 //	fileName = 'c:/temp/topo30/topo30';
+//	fileName = 'c:/temp/topo30/topo1.gsd';
 //	fileName = './topo30';
 //	fileName = 'http://caper.ws/terrain-srtm30-plus/topo30/topo30';
-//	var fileName = '../../../data-samples/usgs-srtm1-2-1/N37W123.hgt';
-	var fileName = 	'C:/temp/de-ferranti/P32/N60E006.hgt';
+	var fileName = '../../../data-samples/usgs-srtm1-2-1/N37W121.hgt';
+//	var fileName = 	'C:/temp/de-ferranti/P32/N60E006.hgt';
 
 	var xmlHttp;
 	var byteArray;
@@ -95,7 +96,7 @@
 		xmlHttp.responseType = "arraybuffer";
 		xmlHttp.open( 'GET', fileName, true );
 		xmlHttp.onreadystatechange = getData;
-		xmlHttp.setRequestHeader('Range', 'bytes=' + startByte + '-' + finishByte );
+//		xmlHttp.setRequestHeader('Range', 'bytes=' + startByte + '-' + finishByte );
 		xmlHttp.send( null );
 
 	}
