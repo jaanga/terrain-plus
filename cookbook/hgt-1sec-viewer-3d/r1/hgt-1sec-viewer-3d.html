@@ -17,10 +17,11 @@
 
 	var changes = 0;
 
-	fileName = 'c:/temp/topo30/topo30';
+//	fileName = 'c:/temp/topo30/topo30';
 //	fileName = './topo30';
 //	fileName = 'http://caper.ws/terrain-srtm30-plus/topo30/topo30';
-	fileName = '../../../data-samples/usgs-srtm1-2-1/N37W123.hgt';
+//	var fileName = '../../../data-samples/usgs-srtm1-2-1/N37W123.hgt';
+	var fileName = 	'C:/temp/de-ferranti/P32/N60E006.hgt';
 
 	var xmlHttp;
 	var byteArray;
@@ -112,13 +113,13 @@
 
 				elevation = 256 * byteArray[ i++ ] + byteArray[ i++ ];
 
-				elevation = ( elevation < 32767 ) ? elevation : elevation - 65536;
+				elevation = ( elevation < 32767 ) ? elevation : elevation - 65535;
 
 //				elevation = elevation < -15000 || elevation > 10000 ? 0 : elevation ;
 
 				imageDataData[ index++ ] = elevation & 0x0000ff;
-				imageDataData[ index++ ] = (elevation & 0x00ff00) >> 8;
-				imageDataData[ index++ ] = (elevation & 0xff0000) >> 16;
+				imageDataData[ index++ ] = (elevation & 0x00ff00 ) >> 8;
+				imageDataData[ index++ ] = (elevation & 0xff0000 ) >> 16;
 				imageDataData[ index++ ] = 255;
 
 			}
