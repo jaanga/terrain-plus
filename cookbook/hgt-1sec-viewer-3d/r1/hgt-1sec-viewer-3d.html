@@ -93,7 +93,8 @@
 
 		startTime = new Date();
 		xmlHttp = new XMLHttpRequest();
-		xmlHttp.responseType = "arraybuffer";
+		xmlHttp.crossOrigin = 'Anonymous'; 
+		xmlHttp.responseType = 'arraybuffer';
 		xmlHttp.open( 'GET', fileName, true );
 		xmlHttp.onreadystatechange = getData;
 //		xmlHttp.setRequestHeader('Range', 'bytes=' + startByte + '-' + finishByte );
@@ -127,7 +128,7 @@
 
 			context.putImageData( imageData, 0, 0 );
 
-			map = context.getImageData( 2000, 600, 256, 256 ).data;
+			map = context.getImageData( 2000, 900, 256, 256 ).data;
 
 			updatePlane()
 
