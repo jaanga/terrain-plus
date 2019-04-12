@@ -5,7 +5,7 @@ Terrain Plus Read Me
 
 You have two ways of viewing the Jaanga Terrain Plus files:
 
-* Web page hosted on GitHub: [jaanga.github.io/terrain-plus]( http://jaanga.github.io/terrain-plus/ "view the files as apps." ) <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
+* Web page hosted on GitHub: [jaanga.github.io/terrain-plus]( https://jaanga.github.io/terrain-plus/ "view the files as apps." ) <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
 * Source code on GitHub: [github.com/jaanga/terrain-plus]( https://github.com/jaanga/terrain-plus/ "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
 
 
